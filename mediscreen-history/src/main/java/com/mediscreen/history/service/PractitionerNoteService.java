@@ -12,7 +12,6 @@ public class PractitionerNoteService implements IPractitionerNoteService {
 
    private final PractitionerNoteRepository practitionerNoteRepository;
 
-
     public PractitionerNoteService(PractitionerNoteRepository practitionerNoteRepository) {
         this.practitionerNoteRepository = practitionerNoteRepository;
     }
