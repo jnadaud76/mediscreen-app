@@ -9,4 +9,11 @@ public interface IPractitionerNoteService {
     List<PractitionerNote> getAllPractitionerNote();
 
     List<PractitionerNote> getAllPractitionerNoteByPatientId(Integer patientId);
+
+    PractitionerNote updatePractitionerNote(PractitionerNote noteUpdate);
+
+    PractitionerNote getPractitionerNoteById (String noteId);
+
+    PractitionerNote savePractitionerNote(PractitionerNote note);
+
 }

@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 @Document(collection = "notes")
 public class PractitionerNote {
 
@@ -13,6 +15,7 @@ public class PractitionerNote {
 
     private int patientId;
 
+    @NotBlank(message = "note is mandatory")
     private String note;
 
     private LocalDateTime creationDate;

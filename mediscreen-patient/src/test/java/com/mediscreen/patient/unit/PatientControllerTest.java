@@ -9,10 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mediscreen.patient.controller.PatientController;
-import com.mediscreen.patient.dto.PatientFromStringDto;
 import com.mediscreen.patient.dto.PatientFullDto;
 import com.mediscreen.patient.model.Patient;
-import com.mediscreen.patient.repository.PatientRepository;
 import com.mediscreen.patient.service.IPatientService;
 import com.mediscreen.patient.util.IConversion;
 
@@ -24,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -190,5 +187,9 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isBadRequest());
     }
+
+
+
+
 
 }
