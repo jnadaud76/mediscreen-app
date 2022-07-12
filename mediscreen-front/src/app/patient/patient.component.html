@@ -38,7 +38,7 @@
 
     </div>
     <div class="col-11 mx-auto" *ngIf="patient$ | async as patientModel">
-      <h2>My patient</h2>
+        <h2>My patient</h2>
       <table aria-label="patients" class="table table-bordered text-center">
         <thead class="table-success" >
         <tr>
@@ -64,8 +64,28 @@
         </tr>
         </tbody>
       </table>
+      <h2>Notes</h2>
+      <table aria-label="practitionerNote" class="table table-bordered text-center"
+             *ngFor="let practitionerNoteModel of practitionerNote$ | async">
+        <thead class="table-success" >
+        <tr>
+          <th class="col-9" scope="col">Note</th>
+          <th class="col-2" scope="col">Creation date</th>
+          <th class="col-1" scope="col">Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="col-9">{{practitionerNoteModel.note}}</td>
+          <td class="col-2">{{practitionerNoteModel.creationDate | date: 'yyyy-MM-dd'}}</td>
+          <td class="col-1"><button type="submit" (click)="onUpdateNote()" class="btn btn-primary" >Update
+          </button></td>
+        </tr>
+        </tbody>
+      </table>
       <app-patient-update [showUpdate]="showUpdate" [patientToUpdate]="patientModel" *ngIf="showUpdate==true"></app-patient-update>
     </div>
-        <app-patient-create [showCreate]="showCreate" *ngIf="showCreate==true"></app-patient-create>
+    <app-patient-create [showCreate]="showCreate" *ngIf="showCreate==true"></app-patient-create>
   </form>
+
 </div>

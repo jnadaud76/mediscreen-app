@@ -28,11 +28,9 @@ public class PatientFullDto {
     private Character gender;
 
     @Length(max = 300)
-    @NotEmpty(message = "Address is mandatory")
     private String address;
 
     @Length(max = 20)
-    @NotEmpty(message = "Phone number is mandatory")
     private String phoneNumber;
 
     public PatientFullDto() {

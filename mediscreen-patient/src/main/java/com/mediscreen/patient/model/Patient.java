@@ -42,12 +42,10 @@ public class Patient {
     @Column(name = "GENDER", length = 1)
     private Character gender;
 
-    @NotBlank(message = "Address is mandatory")
-    @Column(name = "ADDRESS", nullable = false, length = 300)
+    @Column(name = "ADDRESS", length = 300)
     private String address;
 
-    @NotBlank(message = "Phone number is mandatory")
-    @Column(name = "PHONE_NUMBER", nullable = false, length = 20)
+    @Column(name = "PHONE_NUMBER", length = 20)
     private String phoneNumber;
 
     public Patient() {

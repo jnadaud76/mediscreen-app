@@ -47,10 +47,6 @@
         <label for="address">Address</label><br>
         <input class="col-11" id="address" type="text" formControlName="address">
         <div class="alert-danger col-11"
-             *ngIf="patientUpdateForm.controls['address'].hasError('required') && patientUpdateForm.controls['address'].touched">
-          Address is required
-        </div>
-        <div class="alert-danger col-11"
              *ngIf="patientUpdateForm.controls['address'].hasError('maxlength') && patientUpdateForm.controls['address'].touched">
           300 characters max.
         </div>
@@ -59,18 +55,20 @@
         <label for="phoneNumber">Phone Number</label><br>
         <input class="col-11" id="phoneNumber" type="text" formControlName="phoneNumber">
         <div class="alert-danger col-11"
-             *ngIf="patientUpdateForm.controls['phoneNumber'].hasError('required') && patientUpdateForm.controls['phoneNumber'].touched">
-          Phone Number is required
-        </div>
-        <div class="alert-danger col-11"
              *ngIf="patientUpdateForm.controls['phoneNumber'].hasError('maxlength') && patientUpdateForm.controls['phoneNumber'].touched">
           20 characters max.
         </div>
       </div>
-      <div class="text-center mt-5">
-      <button type="submit" (click)="onSubmitForm()" class="btn btn-primary" [disabled]="patientUpdateForm.invalid">Validate
-      </button>
-    </div>
+      <div class="row">
+        <div class="col-6 text-center mt-5">
+          <button type="submit" (click)="onSubmitForm()" class="btn btn-primary" [disabled]="patientUpdateForm.invalid">Validate
+          </button>
+        </div>
+        <div class="col-6 text-center mt-5">
+          <button type="submit" (click)="onCancelForm()" class="btn btn-primary" >Cancel
+          </button>
+        </div>
+        </div>
 </div>
   </form>
 </div>

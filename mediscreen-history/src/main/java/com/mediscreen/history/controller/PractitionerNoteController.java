@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api("API for practitioner's notes CRUD operations.")
 @CrossOrigin("*")
@@ -31,6 +32,7 @@ public class PractitionerNoteController {
         this.practitionerNoteService = practitionerNoteService;
     }
 
+    @ApiOperation(value = "Retrieve all practitioner's notes for all patient.")
     @GetMapping("/patHistory")
     public ResponseEntity<List<PractitionerNote>> getAllPractitionerNotes(){
         List<PractitionerNote> notes = practitionerNoteService.getAllPractitionerNote();
@@ -44,6 +46,7 @@ public class PractitionerNoteController {
         }
     }
 
+    @ApiOperation(value = "Retrieve all practitioner's notes for one patient by id.")
     @GetMapping("/patHistory/id")
     public ResponseEntity<List<PractitionerNote>> getAllPractitionerNoteByPatientId(@RequestParam Integer patientId){
         List<PractitionerNote> notes = practitionerNoteService.getAllPractitionerNoteByPatientId(patientId);

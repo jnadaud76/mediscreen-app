@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PatientModel} from "../shared/patient.model";
-import {PatientService} from "../shared/patient.service";
+import {PatientModel} from "../shared/model/patient.model";
+import {PatientService} from "../shared/service/patient.service";
 
 @Component({
   selector: 'app-patient-update',
@@ -25,8 +25,8 @@ export class PatientUpdateComponent implements OnInit {
       firstName: [this.patientToUpdate.firstName, {validators: [Validators.required, Validators.maxLength(100)]}],
       dateOfBirth: [this.patientToUpdate.dateOfBirth, {validators: Validators.required}],
       gender: [this.patientToUpdate.gender, {validators: Validators.required}],
-      address: [this.patientToUpdate.address, {validators: [Validators.required, Validators.maxLength(300)]}],
-      phoneNumber: [this.patientToUpdate.phoneNumber, {validators: [Validators.required, Validators.maxLength(20)]}],
+      address: [this.patientToUpdate.address, {validators: Validators.maxLength(300)}],
+      phoneNumber: [this.patientToUpdate.phoneNumber, {validators: Validators.maxLength(20)}],
     }, {
       updateOn: 'change'
       });
@@ -45,6 +45,11 @@ export class PatientUpdateComponent implements OnInit {
 
     this.patientService.updatePatient(this.patientUpdate).subscribe();
 
+    this.showUpdate=false;
+    window.location.reload();
+  }
+
+  onCancelForm() {
     this.showUpdate=false;
     window.location.reload();
   }

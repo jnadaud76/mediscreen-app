@@ -1,4 +1,4 @@
-import {PatientModel} from "./patient.model";
+import {PatientModel} from "../model/patient.model";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -24,7 +24,7 @@ export class PatientService {
   }
 
   updatePatient(patientModel: PatientModel) {
-      return this.http.put(`http://localhost:8081/api/patient/patient/update`, patientModel);
+    return this.http.put(`http://localhost:8081/api/patient/patient/update`, patientModel);
   }
 
   createPatient(patientModel: PatientModel) {

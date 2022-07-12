@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PatientModel} from "../shared/patient.model";
-import {PatientService} from "../shared/patient.service";
+import {PatientModel} from "../shared/model/patient.model";
+import {PatientService} from "../shared/service/patient.service";
 
 @Component({
   selector: 'app-patient-create',
@@ -23,8 +23,8 @@ export class PatientCreateComponent implements OnInit {
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
       dateOfBirth: ['', {validators: Validators.required}],
       gender: ['', {validators: Validators.required}],
-      address: ['', {validators: [Validators.required, Validators.maxLength(300)]}],
-      phoneNumber: ['', {validators: [Validators.required, Validators.maxLength(20)]}],
+      address: ['', {validators: [Validators.maxLength(300)]}],
+      phoneNumber: ['', {validators: [Validators.maxLength(20)]}],
     }, {
       updateOn: 'change'
     });
@@ -42,6 +42,11 @@ export class PatientCreateComponent implements OnInit {
 
     this.patientService.createPatient(this.patientCreate).subscribe();
 
+    this.showCreate=false;
+    window.location.reload();
+  }
+
+  onCancelForm() {
     this.showCreate=false;
     window.location.reload();
   }
