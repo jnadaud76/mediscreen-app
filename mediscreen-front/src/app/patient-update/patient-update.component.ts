@@ -1,7 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientModel} from "../shared/model/patient.model";
 import {PatientService} from "../shared/service/patient.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-patient-update',
@@ -9,32 +11,35 @@ import {PatientService} from "../shared/service/patient.service";
   styleUrls: ['./patient-update.component.scss']
 })
 export class PatientUpdateComponent implements OnInit {
-
+  patient$!: Observable<PatientModel>
   patientUpdateForm!: FormGroup;
-  @Input()
   patientToUpdate!: PatientModel;
-  @Input()
-  showUpdate!: boolean;
   patientUpdate!: PatientModel;
+  patientId!: number
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder) { }
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
+    this.patientId =
+      +this.route.snapshot.params['id'];
+    this.patient$ = this.patientService.getPatientById(this.patientId)
+
     this.patientUpdateForm = this.formBuilder.group({
-      lastName: [this.patientToUpdate.lastName, {validators: [Validators.required, Validators.maxLength(100)]}],
-      firstName: [this.patientToUpdate.firstName, {validators: [Validators.required, Validators.maxLength(100)]}],
-      dateOfBirth: [this.patientToUpdate.dateOfBirth, {validators: Validators.required}],
-      gender: [this.patientToUpdate.gender, {validators: Validators.required}],
-      address: [this.patientToUpdate.address, {validators: Validators.maxLength(300)}],
-      phoneNumber: [this.patientToUpdate.phoneNumber, {validators: Validators.maxLength(20)}],
+      lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
+      firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
+      dateOfBirth: ['', {validators: Validators.required}],
+      gender: ['', {validators: Validators.required}],
+      address: ['', {validators: Validators.maxLength(300)}],
+      phoneNumber: ['', {validators: Validators.maxLength(20)}],
     }, {
       updateOn: 'change'
-      });
+    });
   }
 
   onSubmitForm() {
     this.patientUpdate = {
-      id: this.patientToUpdate.id,
+      id: this.patientId,
       firstName: this.patientUpdateForm.value.firstName,
       lastName: this.patientUpdateForm.value.lastName,
       dateOfBirth: this.patientUpdateForm.value.dateOfBirth,
@@ -43,15 +48,12 @@ export class PatientUpdateComponent implements OnInit {
       phoneNumber: this.patientUpdateForm.value.phoneNumber
     }
 
-    this.patientService.updatePatient(this.patientUpdate).subscribe();
-
-    this.showUpdate=false;
-    window.location.reload();
+    this.patientService.updatePatient(this.patientUpdate)
+      .pipe(map(() => this.router.navigateByUrl(`patient/${this.patientId}`))).subscribe();
   }
 
   onCancelForm() {
-    this.showUpdate=false;
-    window.location.reload();
+    this.router.navigateByUrl(`patient/${this.patientId}`)
   }
 
-  }
+}

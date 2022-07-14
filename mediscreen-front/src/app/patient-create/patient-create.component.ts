@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientModel} from "../shared/model/patient.model";
 import {PatientService} from "../shared/service/patient.service";
+import {Router} from "@angular/router";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-patient-create',
@@ -15,7 +17,7 @@ export class PatientCreateComponent implements OnInit {
   showCreate!: boolean;
   patientCreate!: PatientModel;
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder) { }
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.patientCreateForm = this.formBuilder.group({
@@ -32,6 +34,7 @@ export class PatientCreateComponent implements OnInit {
 
   onSubmitForm() {
     this.patientCreate = {
+      id:0,
       firstName: this.patientCreateForm.value.firstName,
       lastName: this.patientCreateForm.value.lastName,
       dateOfBirth: this.patientCreateForm.value.dateOfBirth,
@@ -40,15 +43,12 @@ export class PatientCreateComponent implements OnInit {
       phoneNumber: this.patientCreateForm.value.phoneNumber
     }
 
-    this.patientService.createPatient(this.patientCreate).subscribe();
-
-    this.showCreate=false;
-    window.location.reload();
+    this.patientService.createPatient(this.patientCreate)
+      .pipe(map(() => this.router.navigateByUrl('dashboard'))).subscribe();
   }
 
   onCancelForm() {
-    this.showCreate=false;
-    window.location.reload();
+    this.router.navigateByUrl('dashboard')
   }
 
 }

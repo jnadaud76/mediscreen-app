@@ -14,4 +14,12 @@ export class PractitionerNoteService {
   getPractitionerNoteByPatientId(patientId: number | undefined): Observable<PractitionerNoteModel[]> {
     return this.http.get<PractitionerNoteModel[]>(`http://localhost:8082/api/history/patHistory/id?patientId=${patientId}`);
   }
+
+  updatePractitionerNote (practitionerNoteModel : PractitionerNoteModel): Observable<PractitionerNoteModel> {
+    return this.http.put<PractitionerNoteModel>(`http://localhost:8082/api/history/patHistory/update`, practitionerNoteModel)
+  }
+
+  createPractitionerNote (practitionerNoteModel : PractitionerNoteModel): Observable<PractitionerNoteModel> {
+    return this.http.post<PractitionerNoteModel>(`http://localhost:8082/api/history/patHistory/add/json`, practitionerNoteModel)
+  }
 }

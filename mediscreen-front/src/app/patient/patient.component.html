@@ -1,91 +1,63 @@
-<div class="registration-container col-8 border border-dark rounded py-5 m-auto mt-5">
-  <form [formGroup]="patientForm">
-    <div class="text-center">
-      <h1>Search Patient</h1>
-    </div>
-    <div class="form-group  col-2 mx-5 my-4">
-      <label for="lastName">Last Name</label><br>
-      <input class="col-11" id="lastName" type="text" placeholder="Last name" formControlName="lastName">
-      <div class="alert-danger col-11"
-           *ngIf="patientForm.controls['lastName'].hasError('required') && patientForm.controls['lastName'].touched">
-        Last Name is required
-      </div>
-      <div class="alert-danger col-11"
-           *ngIf="patientForm.controls['lastName'].hasError('maxlength') && patientForm.controls['lastName'].touched">
-        100 characters max.
-      </div>
-    </div>
-    <div class="form-group  col-2 mx-5 my-4">
-      <label for="firstName">First Name</label><br>
-      <input class="col-11" id="firstName" type="text" placeholder="First name" formControlName="firstName">
-      <div class="alert-danger col-11"
-           *ngIf="patientForm.controls['firstName'].hasError('required') && patientForm.controls['firstName'].touched">
-        First Name is required.
-      </div>
-      <div class="alert-danger col-11"
-           *ngIf="patientForm.controls['firstName'].hasError('maxlength') && patientForm.controls['firstName'].touched">
-        100 characters max.
-      </div>
-    </div>
-    <div class="row-cols-6 mt-5 pb-4">
-
-      <button type="submit" (click)="onSubmitSearch()" class="btn btn-primary mx-5" [disabled]="patientForm.invalid">Search
-      </button>
-
-
-      <button type="submit" (click)="onSubmitCreate()" class="btn btn-primary">Create
-      </button>
-
-    </div>
-    <div class="col-11 mx-auto" *ngIf="patient$ | async as patientModel">
-        <h2>My patient</h2>
-      <table aria-label="patients" class="table table-bordered text-center">
-        <thead class="table-success" >
-        <tr>
-          <th class="col-1" scope="col">FirstName</th>
-          <th class="col-1" scope="col">LastName</th>
-          <th class="col-2" scope="col">Date of birth</th>
-          <th class="col-1" scope="col">Gender</th>
-          <th class="col-4" scope="col">Address</th>
-          <th class="col-2" scope="col">PhoneNumber</th>
-          <th class="col-1" scope="col">Update</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="col-1">{{patientModel.firstName}}</td>
-          <td class="col-1">{{patientModel.lastName}}</td>
-          <td class="col-2">{{patientModel.dateOfBirth | date: 'yyyy-MM-dd'}}</td>
-          <td class="col-1">{{patientModel.gender}}</td>
-          <td class="col-4">{{patientModel.address}}</td>
-          <td class="col-2">{{patientModel.phoneNumber}}</td>
-          <td class="col-1"><button type="submit" (click)="onUpdate()" class="btn btn-primary" >Update
-          </button></td>
-        </tr>
-        </tbody>
-      </table>
+<div class="col-11 mx-auto" *ngIf="patient$ | async as patientModel">
+  <h2>My patient</h2>
+  <table aria-label="patients" class="table table-bordered text-center">
+    <thead class="table-success">
+    <tr>
+      <th class="col-1" scope="col">FirstName</th>
+      <th class="col-1" scope="col">LastName</th>
+      <th class="col-2" scope="col">Date of birth</th>
+      <th class="col-1" scope="col">Gender</th>
+      <th class="col-4" scope="col">Address</th>
+      <th class="col-2" scope="col">PhoneNumber</th>
+      <th class="col-1" scope="col">Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="col-1">{{patientModel.firstName}}</td>
+      <td class="col-1">{{patientModel.lastName}}</td>
+      <td class="col-2">{{patientModel.dateOfBirth | date: 'yyyy-MM-dd'}}</td>
+      <td class="col-1">{{patientModel.gender}}</td>
+      <td class="col-4">{{patientModel.address}}</td>
+      <td class="col-2">{{patientModel.phoneNumber}}</td>
+      <td class="col-1">
+        <button type="submit" (click)="onUpdate()" class="btn btn-primary">Update
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-6">
       <h2>Notes</h2>
-      <table aria-label="practitionerNote" class="table table-bordered text-center"
-             *ngFor="let practitionerNoteModel of practitionerNote$ | async">
-        <thead class="table-success" >
-        <tr>
-          <th class="col-9" scope="col">Note</th>
-          <th class="col-2" scope="col">Creation date</th>
-          <th class="col-1" scope="col">Update</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="col-9">{{practitionerNoteModel.note}}</td>
-          <td class="col-2">{{practitionerNoteModel.creationDate | date: 'yyyy-MM-dd'}}</td>
-          <td class="col-1"><button type="submit" (click)="onUpdateNote()" class="btn btn-primary" >Update
-          </button></td>
-        </tr>
-        </tbody>
-      </table>
-      <app-patient-update [showUpdate]="showUpdate" [patientToUpdate]="patientModel" *ngIf="showUpdate==true"></app-patient-update>
     </div>
-    <app-patient-create [showCreate]="showCreate" *ngIf="showCreate==true"></app-patient-create>
-  </form>
-
+    <div class="col-6 text-end">
+      <button type="submit" (click)="onSubmitCreate()" class="btn btn-success">Create Note
+      </button>
+    </div>
+  </div>
+  <table aria-label="practitionerNote" class="table table-bordered text-center">
+    <thead class="table-success">
+    <tr>
+      <th class="col-9" scope="col">Note</th>
+      <th class="col-2" scope="col">Creation date</th>
+      <th class="col-1" scope="col">Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let practitionerNoteModel of practitionerNote$ | async">
+      <td class="col-9">{{practitionerNoteModel.note}}</td>
+      <td class="col-2">{{practitionerNoteModel.creationDate | date: 'yyyy-MM-dd'}}</td>
+      <td class="col-1">
+        <button type="submit" (click)="onUpdateNote(practitionerNoteModel)" class="btn btn-primary">Update
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-practitionernote-create [showNoteCreate]="showCreateNote"
+                               *ngIf="showCreateNote==true"></app-practitionernote-create>
+  <app-practitionernote-update [showNoteUpdate]="showUpdateNote" [noteToUpdate]="practitionerNoteToUpdate"
+                               *ngIf="showUpdateNote==true"></app-practitionernote-update>
+  <div class="col-11 mx-5 text-end"><a routerLink="" routerLinkActive="active">Back</a></div>
 </div>
