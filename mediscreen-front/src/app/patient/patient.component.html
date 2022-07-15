@@ -47,7 +47,7 @@
     <tbody>
     <tr *ngFor="let practitionerNoteModel of practitionerNote$ | async">
       <td class="col-9">{{practitionerNoteModel.note}}</td>
-      <td class="col-2">{{practitionerNoteModel.creationDate | date: 'yyyy-MM-dd'}}</td>
+      <td class="col-2">{{practitionerNoteModel.creationDate | date: 'yyyy-MM-dd HH:mm'}}</td>
       <td class="col-1">
         <button type="submit" (click)="onUpdateNote(practitionerNoteModel)" class="btn btn-primary">Update
         </button>
