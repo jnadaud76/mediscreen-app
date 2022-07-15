@@ -9,9 +9,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mediscreen.history.controller.PractitionerNoteController;
+import com.mediscreen.history.dto.PractitionerNoteFromStringDto;
 import com.mediscreen.history.dto.PractitionerNoteFullDto;
 import com.mediscreen.history.model.PractitionerNote;
 import com.mediscreen.history.service.IPractitionerNoteService;
+import com.mediscreen.history.util.IConversion;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,6 +38,9 @@ class PractitionerNoteControllerTest {
 
     @MockBean
     private IPractitionerNoteService practitionerNoteService;
+
+    @MockBean
+    private IConversion conversion;
 
     @Test
     void TestGetAllNotes() throws Exception {
@@ -114,7 +120,7 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestCreatePractitionerNote() throws Exception {
+    void TestCreatePractitionerNoteFromJson() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setPatientId(2);
         noteFullDto.setNote("test2");
@@ -133,5 +139,28 @@ class PractitionerNoteControllerTest {
                         .content(noteFullDtoAsString))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void TestCreatePractitionerNote() throws Exception {
+        PractitionerNoteFromStringDto noteFromString = new PractitionerNoteFromStringDto();
+        noteFromString.setPatId("1");
+        noteFromString.setE("test test");
+        PractitionerNote note = new PractitionerNote();
+        note.setPatientId(1);
+        note.setNote("test test");
+        PractitionerNote noteReturn = new PractitionerNote();
+        noteReturn.setId("62cd787aba941b281712bb9c");
+        noteReturn.setPatientId(1);
+        noteReturn.setNote("test test");
+        noteReturn.setCreationDate(LocalDateTime.now());
+        when(conversion.practitionerNoteFromStringDtoToPractitionerNote(noteFromString)).thenReturn(note);
+        when(practitionerNoteService.savePractitionerNote(note)).thenReturn(noteReturn);
+        mockMvc.perform(post("/api/history/patHistory/add")
+                        .queryParam("patId", "1")
+                        .queryParam("e", "test test")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+                .andExpect(status().isCreated());
+    }
+
 
 }

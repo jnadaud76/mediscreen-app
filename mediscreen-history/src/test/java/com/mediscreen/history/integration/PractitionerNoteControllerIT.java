@@ -1,5 +1,6 @@
 package com.mediscreen.history.integration;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mediscreen.history.dto.PractitionerNoteFromStringDto;
 import com.mediscreen.history.dto.PractitionerNoteFullDto;
 import com.mediscreen.history.model.PractitionerNote;
 import com.mediscreen.history.repository.PractitionerNoteRepository;
@@ -124,7 +126,7 @@ class PractitionerNoteControllerIT {
     }
 
     @Test
-    void TestCreatePractitionerNote() throws Exception {
+    void TestCreatePractitionerNoteFromJson() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setPatientId(2);
         noteFullDto.setNote("test2");
@@ -132,6 +134,15 @@ class PractitionerNoteControllerIT {
         mockMvc.perform(post("/api/history/patHistory/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void TestCreatePractitionerNote() throws Exception {
+        mockMvc.perform(post("/api/history/patHistory/add")
+                        .queryParam("patId", "1")
+                        .queryParam("e", "test test")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isCreated());
     }
 }

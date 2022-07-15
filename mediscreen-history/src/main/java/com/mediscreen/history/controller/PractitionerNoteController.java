@@ -2,13 +2,16 @@ package com.mediscreen.history.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mediscreen.history.dto.PractitionerNoteFromStringDto;
 import com.mediscreen.history.dto.PractitionerNoteFullDto;
 import com.mediscreen.history.model.PractitionerNote;
 import com.mediscreen.history.service.IPractitionerNoteService;
+import com.mediscreen.history.util.IConversion;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,10 +39,14 @@ public class PractitionerNoteController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PractitionerNoteController.class);
 
+    private final IConversion conversion;
+
     private final IPractitionerNoteService practitionerNoteService;
 
-    public PractitionerNoteController(IPractitionerNoteService practitionerNoteService) {
+    public PractitionerNoteController(IPractitionerNoteService practitionerNoteService,
+                                      IConversion conversion) {
         this.practitionerNoteService = practitionerNoteService;
+        this.conversion=conversion;
     }
 
     @ApiOperation(value = "Retrieve all practitioner's notes for all patient.")
@@ -81,6 +88,17 @@ public class PractitionerNoteController {
             LOGGER.error("Note can't be update because don't exist : {}", HttpStatus.BAD_REQUEST);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @ApiOperation(value = "Create one practitioner's note from from URLENCODED_VALUE.")
+    @PostMapping(value="/patHistory/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PractitionerNoteFullDto> createPatient (@Valid PractitionerNoteFromStringDto practitionerNoteFromStringDto) {
+        PractitionerNote note = practitionerNoteService
+                .savePractitionerNote(conversion
+                        .practitionerNoteFromStringDtoToPractitionerNote(practitionerNoteFromStringDto));
+        LOGGER.info("Note successfully create - code : {}", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(OBJECT_MAPPER.convertValue(note, PractitionerNoteFullDto.class));
     }
 
     @ApiOperation(value = "Create one practitioner's note from JSON.")
