@@ -2,25 +2,27 @@ package com.mediscreen.report.enumeration;
 
 public enum TriggerTerms {
 
-    TRIGGER_TERM_A("Hémoglobine A1C"),
-    TRIGGER_TERM_B("Microalbumine"),
-    TRIGGER_TERM_C("Taille"),
-    TRIGGER_TERM_D("Poids"),
-    TRIGGER_TERM_E("Fumeur"),
-    TRIGGER_TERM_F("Anormal"),
-    TRIGGER_TERM_G("Cholestérol"),
-    TRIGGER_TERM_H("Vertige"),
-    TRIGGER_TERM_I("Rechute"),
-    TRIGGER_TERM_J("Réaction"),
-    TRIGGER_TERM_K("Anticorps");
+    TRIGGER_TERM_A("hémoglobine a1c"),
+    TRIGGER_TERM_B("microalbumine"),
+    TRIGGER_TERM_C("taille"),
+    TRIGGER_TERM_D("poids"),
+    TRIGGER_TERM_E("fumeur"),
+    TRIGGER_TERM_F("anormal"),
+    TRIGGER_TERM_G("cholestérol"),
+    TRIGGER_TERM_H("vertige"),
+    TRIGGER_TERM_I("rechute"),
+    TRIGGER_TERM_J("réaction"),
+    TRIGGER_TERM_K("anticorps");
 
     private final String triggerTerm;
 
-    TriggerTerms(String triggerTerm) {
+    TriggerTerms(final String triggerTerm) {
         this.triggerTerm = triggerTerm;
     }
 
-    public String getTriggerTerm() {
+    @Override
+    public String toString() {
         return triggerTerm;
     }
+
 }
