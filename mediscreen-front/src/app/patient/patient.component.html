@@ -36,7 +36,7 @@
       </button>
     </div>
   </div>
-  <table aria-label="practitionerNote" class="table table-bordered text-center">
+  <table aria-label="report" class="table table-bordered text-center">
     <thead class="table-success">
     <tr>
       <th class="col-9" scope="col">Note</th>
@@ -55,6 +55,49 @@
     </tr>
     </tbody>
   </table>
+  <div *ngIf="report$ | async as reportModel">
+    <h2>Report</h2>
+    <table aria-label="reportPatient" class="table table-bordered text-center">
+      <thead [ngClass]="{'none': (reportModel.riskLevel.toString()==='NONE'),
+      'borderline': (reportModel.riskLevel.toString()==='BORDERLINE'),
+      'in_danger': (reportModel.riskLevel.toString()==='IN_DANGER'),
+      'early_onset': (reportModel.riskLevel.toString()==='EARLY_ONSET')}">
+      <tr>
+        <th class="col-1" scope="col">FirstName</th>
+        <th class="col-1" scope="col">LastName</th>
+        <th class="col-2" scope="col">Date of birth</th>
+        <th class="col-1" scope="col">Gender</th>
+        <th class="col-5" scope="col">Address</th>
+        <th class="col-2" scope="col">PhoneNumber</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="col-1">{{reportModel.patient.firstName}}</td>
+        <td class="col-1">{{reportModel.patient.lastName}}</td>
+        <td class="col-2">{{reportModel.patient.dateOfBirth | date: 'yyyy-MM-dd'}}</td>
+        <td class="col-1">{{reportModel.patient.gender}}</td>
+        <td class="col-5">{{reportModel.patient.address}}</td>
+        <td class="col-2">{{reportModel.patient.phoneNumber}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <table aria-label="reportPatient2" class="table table-bordered text-center">
+      <thead [ngClass]="{'none': (reportModel.riskLevel.toString()==='NONE'),
+      'borderline': (reportModel.riskLevel.toString()==='BORDERLINE'),
+      'in_danger': (reportModel.riskLevel.toString()==='IN_DANGER'),
+      'early_onset': (reportModel.riskLevel.toString()==='EARLY_ONSET')}">
+      <tr>
+        <th class="col-6" scope="col">Age</th>
+        <th class="col-6" scope="col">Risk Level</th>
+      </tr>
+      </thead>
+      <tbody>
+      <td class="col-6">{{reportModel.age}}</td>
+      <td class="col-6">{{reportModel.riskLevel}}</td>
+      </tbody>
+    </table>
+  </div>
   <app-practitionernote-create [showNoteCreate]="showCreateNote"
                                *ngIf="showCreateNote==true"></app-practitionernote-create>
   <app-practitionernote-update [showNoteUpdate]="showUpdateNote" [noteToUpdate]="practitionerNoteToUpdate"

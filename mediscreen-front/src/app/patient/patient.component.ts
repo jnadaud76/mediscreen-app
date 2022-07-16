@@ -5,6 +5,8 @@ import {map, Observable} from "rxjs";
 import {PractitionerNoteModel} from "../shared/model/practitioner-note.model";
 import {PractitionerNoteService} from "../shared/service/practitioner-note.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ReportModel} from "../shared/model/report.model";
+import {ReportService} from "../shared/service/report.service";
 
 @Component({
   selector: 'app-patient',
@@ -14,6 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class PatientComponent implements OnInit {
   patient$!: Observable<PatientModel>;
   practitionerNote$!: Observable<PractitionerNoteModel[]>;
+  report$!: Observable<ReportModel>;
   patientModel!: PatientModel;
   practitionerNote!: PractitionerNoteModel;
   practitionerNoteToUpdate!: PractitionerNoteModel;
@@ -23,7 +26,7 @@ export class PatientComponent implements OnInit {
 
 
   constructor(private patientService: PatientService, private practitionerNoteService: PractitionerNoteService
-    , private route: ActivatedRoute, private router: Router) {
+    , private reportService: ReportService ,private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -33,6 +36,7 @@ export class PatientComponent implements OnInit {
       map(response => {
         this.patientModel = response
         this.practitionerNote$ = this.practitionerNoteService.getPractitionerNoteByPatientId(this.patientModel.id)
+        this.report$ = this.reportService.getReportByPatientId(this.patientModel.id)
         return this.patientModel
       }));
   }
