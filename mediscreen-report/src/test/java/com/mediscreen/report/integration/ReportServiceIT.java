@@ -66,8 +66,6 @@ class ReportServiceIT {
                 patientServiceProxy, calculator);
         Report report = reportService.generateReport(75);
         assertNull(report);
-       /* assertThrows(FeignException.NotFound.class, () ->
-                reportService.generateReport(75));*/
     }
 
 }
