@@ -46,7 +46,9 @@ public class ReportService implements IReportService{
             report.setPatient(patient);
             report.setAge(age);
 
-            if (triggersTermsOccurrences >= 0 && triggersTermsOccurrences < 2) {
+            if ((triggersTermsOccurrences >= 0 && triggersTermsOccurrences <= 1 && age > 30)
+            || (gender=='M' && triggersTermsOccurrences >= 0 && triggersTermsOccurrences <= 2 && age < 30)
+            || (gender=='F' && triggersTermsOccurrences >= 0 && triggersTermsOccurrences <= 3 && age < 30)) {
                 riskLevel = RiskLevel.NONE.toString();
 
             } else if (triggersTermsOccurrences >= 2 && triggersTermsOccurrences < 6 && age > 30) {

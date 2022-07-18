@@ -1,6 +1,14 @@
 a {
   font-size: larger;
 }
+#back :hover {
+ color: red;
+}
+
+mat-icon {
+  width: 200%;
+  height: 200%;
+}
 
 .none {
   background-color: green;
@@ -18,3 +26,9 @@ a {
   background: red;
   color: white;
 }
+
+strong {
+  font-size: larger;
+}
+
+

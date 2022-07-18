@@ -78,7 +78,12 @@
     </tr>
     </tbody>
   </table>
+  <div *ngIf="errorMessage" class="alert alert-warning">
+    <strong>Patient doesnt' exist</strong>
+  </div>
 </div>
+
+
 
 <div class="col-11 mx-auto mt-2" *ngIf="showPatients==true">
   <div class="row">

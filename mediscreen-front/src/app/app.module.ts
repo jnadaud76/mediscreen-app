@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {MatButtonModule} from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { PatientComponent } from './patient/patient.component';
@@ -14,6 +15,9 @@ import { PatientListComponent } from './patient-list/patient-list.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import { PractitionernoteCreateComponent } from './practitionernote-create/practitionernote-create.component';
 import { PractitionernoteUpdateComponent } from './practitionernote-update/practitionernote-update.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from "@angular/material/icon";
+
 
 @NgModule({
   declarations: [
@@ -27,14 +31,18 @@ import { PractitionernoteUpdateComponent } from './practitionernote-update/pract
     PractitionernoteCreateComponent,
     PractitionernoteUpdateComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        FormsModule,
-        NgxPaginationModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    FormsModule,
+    NgxPaginationModule,
+    MatButtonModule,
+    NoopAnimationsModule,
+    MatIconModule
+
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

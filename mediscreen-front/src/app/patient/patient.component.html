@@ -1,3 +1,6 @@
+<div *ngIf="errorMessage" class="alert alert-warning col-8 text-center mx-auto">
+  <strong>Patient doesnt' exist</strong>
+</div>
 <div class="col-11 mx-auto" *ngIf="patient$ | async as patientModel">
   <h2>My patient</h2>
   <table aria-label="patients" class="table table-bordered text-center">
@@ -35,8 +38,11 @@
       <button type="submit" (click)="onSubmitCreate()" class="btn btn-success">Create Note
       </button>
     </div>
+    <div *ngIf="errorMessageNote" class="alert alert-info col-8 text-center mx-auto">
+      <strong>Patient doesnt' have any note, you can create one using button on the right.</strong>
+    </div>
   </div>
-  <table aria-label="report" class="table table-bordered text-center">
+  <table aria-label="report" class="table table-bordered text-center" *ngIf="!errorMessageNote">
     <thead class="table-success">
     <tr>
       <th class="col-9" scope="col">Note</th>
@@ -55,6 +61,10 @@
     </tr>
     </tbody>
   </table>
+  <app-practitionernote-create [showNoteCreate]="showCreateNote"
+                               *ngIf="showCreateNote==true"></app-practitionernote-create>
+  <app-practitionernote-update [showNoteUpdate]="showUpdateNote" [noteToUpdate]="practitionerNoteToUpdate"
+                               *ngIf="showUpdateNote==true"></app-practitionernote-update>
   <div *ngIf="report$ | async as reportModel">
     <h2>Report</h2>
     <table aria-label="reportPatient" class="table table-bordered text-center">
@@ -82,6 +92,7 @@
       </tr>
       </tbody>
     </table>
+
     <table aria-label="reportPatient2" class="table table-bordered text-center">
       <thead [ngClass]="{'none': (reportModel.riskLevel.toString()==='NONE'),
       'borderline': (reportModel.riskLevel.toString()==='BORDERLINE'),
@@ -94,13 +105,14 @@
       </thead>
       <tbody>
       <td class="col-6">{{reportModel.age}}</td>
-      <td class="col-6">{{reportModel.riskLevel}}</td>
+      <td class="col-6">{{reportModel.riskLevel | lowercase}}</td>
       </tbody>
     </table>
   </div>
-  <app-practitionernote-create [showNoteCreate]="showCreateNote"
-                               *ngIf="showCreateNote==true"></app-practitionernote-create>
-  <app-practitionernote-update [showNoteUpdate]="showUpdateNote" [noteToUpdate]="practitionerNoteToUpdate"
-                               *ngIf="showUpdateNote==true"></app-practitionernote-update>
-  <div class="col-11 mx-5 text-end"><a routerLink="" routerLinkActive="active">Back</a></div>
+
+ <div id="back" class="col-11 mx-5 text-end">
+    <button mat-raised-button class="border-0 bg-white" >
+      <mat-icon routerLink="" routerLinkActive="active">arrow_back</mat-icon>
+    </button>
+ </div>
 </div>

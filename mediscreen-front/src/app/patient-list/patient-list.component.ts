@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PatientModel} from "../shared/model/patient.model";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {PatientService} from "../shared/service/patient.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -20,6 +20,7 @@ export class PatientListComponent implements OnInit {
   showPatientDetails=false;
   showPatient=false;
   patientId!: number;
+  errorMessage!: string;
 
   constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
 
@@ -35,11 +36,14 @@ export class PatientListComponent implements OnInit {
   }
 
   onSubmitSearch() {
-    this.patient$ = this.patientService.getPatient(this.patientForm.value.firstName, this.patientForm.value.lastName);
+    this.errorMessage="";
+    this.patient$ = this.patientService.getPatient(this.patientForm.value.firstName, this.patientForm.value.lastName)
+      .pipe(catchError(error => {
+        this.errorMessage=error;
+        return throwError(()=> error.message())
+      }));
     this.showPatients=false;
     this.showPatient=true;
-   // this.showPatientDetails=false
-
   }
 
   onSubmitClear() {
