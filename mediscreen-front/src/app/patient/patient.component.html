@@ -1,5 +1,5 @@
 <div *ngIf="errorMessage" class="alert alert-warning col-8 text-center mx-auto">
-  <strong>Patient doesnt' exist</strong>
+  <strong>Patient doesn't exist</strong>
 </div>
 <div class="col-11 mx-auto" *ngIf="patient$ | async as patientModel">
   <h2>My patient</h2>
@@ -39,7 +39,7 @@
       </button>
     </div>
     <div *ngIf="errorMessageNote" class="alert alert-info col-8 text-center mx-auto">
-      <strong>Patient doesnt' have any note, you can create one using button on the right.</strong>
+      <strong>Patient doesn't have any note, you can create one using button on the right.</strong>
     </div>
   </div>
   <table aria-label="report" class="table table-bordered text-center" *ngIf="!errorMessageNote">
