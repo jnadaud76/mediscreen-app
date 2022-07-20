@@ -9,8 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mediscreen</groupId>
-    <artifactId>mediscreen-report</artifactId>
-    <version>0.0.1</version>
+    <artifactId>report</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
     <name>report</name>
     <properties>
         <java.version>1.8</java.version>

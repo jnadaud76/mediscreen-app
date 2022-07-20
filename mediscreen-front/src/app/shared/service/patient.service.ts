@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class PatientService {
 
-  constructor(private http: HttpClient) {
+   constructor(private http: HttpClient) {
   }
 
   getAllPatient(): Observable<PatientModel[]> {

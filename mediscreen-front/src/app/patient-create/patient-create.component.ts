@@ -23,12 +23,12 @@ export class PatientCreateComponent implements OnInit {
     this.patientCreateForm = this.formBuilder.group({
       lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
-      dateOfBirth: ['', {validators: Validators.required}],
+      dateOfBirth: ['', {validators: [Validators.required]}],
       gender: ['', {validators: Validators.required}],
       address: ['', {validators: [Validators.maxLength(300)]}],
       phoneNumber: ['', {validators: [Validators.maxLength(20)]}],
     }, {
-      updateOn: 'change'
+      updateOn: 'change',
     });
   }
 

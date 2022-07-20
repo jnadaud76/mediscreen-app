@@ -1,0 +1,102 @@
+version: "3"
+services:
+  patientdb:
+    container_name: patientdb
+    image: mysql:8.0.29
+    command:
+      --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: patient
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    volumes:
+      - db-volume2:/var/lib/mysql
+      - ./mediscreen-patient/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./mediscreen-patient/src/main/resources/data.sql:/docker-entrypoint-initdb.d/2.sql
+    networks:
+      - mediscreen-app-network
+     
+  mediscreen-patient:
+    container_name: mediscreen-patient
+    build: ./mediscreen-patient
+    image: patient:lastest
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - patientdb
+    environment:
+      MYSQL_HOST: patientdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - mediscreen-app-network
+
+  historydb:
+    container_name: historydb
+    image : mongo
+    ports :
+      - "27018:27017"
+    volumes :
+      - db-volume:/data
+      - ./mediscreen-history/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD : root
+      MONGO_INITDB_DATABASE: history
+    networks:
+      - mediscreen-app-network
+
+  mediscreen-history:
+    container_name: mediscreen-history
+    build: ./mediscreen-history
+    image: history:lastest
+    restart: always
+    ports:
+      - "8082:8082"
+    depends_on:
+      - historydb
+    environment:
+      MONGO_HOST: historydb
+      MONGO_PORT: 27017
+    networks:
+      - mediscreen-app-network
+
+  mediscreen-report:
+    container_name: mediscreen-report
+    build: ./mediscreen-report
+    image: mediscreen-report:lastest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mediscreen-patient
+      - mediscreen-history
+    environment:
+      MICROSERVICE_PATIENT: mediscreen-patient:8081/api/patient
+      MICROSERVICE_HISTORY: mediscreen-history:8082/api/history
+    networks:
+      - mediscreen-app-network
+
+  mediscreen-front:
+    container_name: mediscreen-front
+    build: ./mediscreen-front
+    image: mediscreen-front:lastest
+    restart: always
+    ports:
+        - "80:80"
+    depends_on:
+      - mediscreen-patient
+      - mediscreen-history
+      - mediscreen-report
+    networks:
+      - mediscreen-app-network
+
+volumes:
+  db-volume: {}
+  db-volume2: {}
+
+networks:
+  mediscreen-app-network:
+    driver: bridge

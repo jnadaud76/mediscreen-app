@@ -10,7 +10,8 @@
     </parent>
     <groupId>com.mediscreen</groupId>
     <artifactId>patient</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
     <name>patient</name>
     <description>patient</description>
     <properties>
