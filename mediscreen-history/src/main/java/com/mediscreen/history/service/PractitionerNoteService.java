@@ -25,14 +25,6 @@ public class PractitionerNoteService implements IPractitionerNoteService {
         return practitionerNoteRepository.findPractitionerNotesByPatientIdOrderByCreationDateDesc(patientId);
     }
 
-    public PractitionerNote getPractitionerNoteById (String noteId) {
-        if(practitionerNoteRepository.existsById(noteId)) {
-            return practitionerNoteRepository.findById(noteId).get();
-        } else {
-            return null;
-        }
-    }
-
     public PractitionerNote updatePractitionerNote(PractitionerNote noteUpdate) {
         if (practitionerNoteRepository.existsById(noteUpdate.getId())) {
             PractitionerNote note = practitionerNoteRepository.findById(noteUpdate.getId()).get();

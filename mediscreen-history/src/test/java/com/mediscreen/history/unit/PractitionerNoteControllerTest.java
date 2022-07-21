@@ -51,7 +51,7 @@ class PractitionerNoteControllerTest {
         note.setCreationDate(LocalDateTime.now().minusHours(1));
         notes.add(note);
         when(practitionerNoteService.getAllPractitionerNote()).thenReturn(notes);
-        mockMvc.perform(get("/api/history/patHistory"))
+        mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isOk());
     }
 
@@ -59,7 +59,7 @@ class PractitionerNoteControllerTest {
     void TestGetAllNotesWithoutNotes() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         when(practitionerNoteService.getAllPractitionerNote()).thenReturn(notes);
-        mockMvc.perform(get("/api/history/patHistory"))
+        mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isNotFound());
     }
 
@@ -72,7 +72,7 @@ class PractitionerNoteControllerTest {
         note.setCreationDate(LocalDateTime.now().minusHours(1));
         notes.add(note);
         when(practitionerNoteService.getAllPractitionerNoteByPatientId(1)).thenReturn(notes);
-        mockMvc.perform(get("/api/history/patHistory/id").queryParam("patientId", "1"))
+        mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", "1"))
                 .andExpect(status().isOk());
     }
 
@@ -80,7 +80,7 @@ class PractitionerNoteControllerTest {
     void TestGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         when(practitionerNoteService.getAllPractitionerNoteByPatientId(1)).thenReturn(notes);
-        mockMvc.perform(get("/api/history/patHistory/id").queryParam("patientId", "1"))
+        mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", "1"))
                 .andExpect(status().isNotFound());
     }
 
@@ -96,7 +96,7 @@ class PractitionerNoteControllerTest {
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
         when(practitionerNoteService.updatePractitionerNote(note))
                 .thenReturn(note);
-        mockMvc.perform(put("/api/history/patHistory/update")
+        mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isOk());
@@ -113,7 +113,7 @@ class PractitionerNoteControllerTest {
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
         when(practitionerNoteService.updatePractitionerNote(note))
                 .thenReturn(null);
-        mockMvc.perform(put("/api/history/patHistory/update")
+        mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isBadRequest());
@@ -134,7 +134,7 @@ class PractitionerNoteControllerTest {
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
         when(practitionerNoteService.savePractitionerNote(note))
                 .thenReturn(noteReturn);
-        mockMvc.perform(post("/api/history/patHistory/add/json")
+        mockMvc.perform(post("/api/patHistory/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isCreated());
@@ -155,7 +155,7 @@ class PractitionerNoteControllerTest {
         noteReturn.setCreationDate(LocalDateTime.now());
         when(conversion.practitionerNoteFromStringDtoToPractitionerNote(noteFromString)).thenReturn(note);
         when(practitionerNoteService.savePractitionerNote(note)).thenReturn(noteReturn);
-        mockMvc.perform(post("/api/history/patHistory/add")
+        mockMvc.perform(post("/api/patHistory/add")
                         .queryParam("patId", "1")
                         .queryParam("e", "test test")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))

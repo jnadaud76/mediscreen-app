@@ -8,18 +8,24 @@ import {PractitionerNoteModel} from "../model/practitioner-note.model";
 })
 export class PractitionerNoteService {
 
+  private _HISTORY_API_URL:string = "http://localhost:8082/api"
+
+  get HISTORY_API_URL(): string {
+    return this._HISTORY_API_URL;
+  }
+
   constructor(private http: HttpClient) {
   }
 
   getPractitionerNoteByPatientId(patientId: number | undefined): Observable<PractitionerNoteModel[]> {
-    return this.http.get<PractitionerNoteModel[]>(`http://localhost:8082/api/history/patHistory/id?patientId=${patientId}`);
+    return this.http.get<PractitionerNoteModel[]>(this.HISTORY_API_URL + `/patHistory/id?patientId=${patientId}`);
   }
 
   updatePractitionerNote (practitionerNoteModel : PractitionerNoteModel): Observable<PractitionerNoteModel> {
-    return this.http.put<PractitionerNoteModel>(`http://localhost:8082/api/history/patHistory/update`, practitionerNoteModel)
+    return this.http.put<PractitionerNoteModel>(this.HISTORY_API_URL + `/patHistory/update`, practitionerNoteModel)
   }
 
   createPractitionerNote (practitionerNoteModel : PractitionerNoteModel): Observable<PractitionerNoteModel> {
-    return this.http.post<PractitionerNoteModel>(`http://localhost:8082/api/history/patHistory/add/json`, practitionerNoteModel)
+    return this.http.post<PractitionerNoteModel>(this.HISTORY_API_URL + `/patHistory/add/json`, practitionerNoteModel)
   }
 }

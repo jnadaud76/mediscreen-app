@@ -74,8 +74,8 @@ services:
       - mediscreen-patient
       - mediscreen-history
     environment:
-      MICROSERVICE_PATIENT: mediscreen-patient:8081/api/patient
-      MICROSERVICE_HISTORY: mediscreen-history:8082/api/history
+      MICROSERVICE_PATIENT: mediscreen-patient:8081/api
+      MICROSERVICE_HISTORY: mediscreen-history:8082/api
     networks:
       - mediscreen-app-network
 

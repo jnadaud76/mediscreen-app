@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS patient;
+CREATE SCHEMA IF NOT EXISTS patient;
 
 USE patient;
 

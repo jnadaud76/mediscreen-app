@@ -2,7 +2,6 @@ package com.mediscreen.patient.integration;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -12,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mediscreen.patient.dto.PatientFullDto;
-import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.service.IPatientService;
 import com.mediscreen.patient.util.IConversion;
 
@@ -27,11 +25,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
 @ActiveProfiles("test")
+//@Sql(scripts = {"classpath:sql/schema-h2.sql", "classpath:sql/data-h2.sql"})
 @SpringBootTest
 @AutoConfigureMockMvc
 class PatientControllerIT {
@@ -49,37 +49,37 @@ class PatientControllerIT {
 
     @Test
     void TestGetAllPatient() throws Exception {
-       mockMvc.perform(get("/api/patient/patients"))
+       mockMvc.perform(get("/api/patients"))
                 .andExpect(status().isOk());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4})
     void TestGetPatientById(int ints) throws Exception {
-          mockMvc.perform(get("/api/patient/patient/id").queryParam("patientId", String.valueOf(ints)))
+          mockMvc.perform(get("/api/patient/id").queryParam("patientId", String.valueOf(ints)))
                 .andExpect(status().isOk());
 
     }
 
     @Test
     void TestGetPatientByIdWithBadId() throws Exception {
-         mockMvc.perform(get("/api/patient/patient/id").queryParam("patientId", "150"))
+         mockMvc.perform(get("/api/patient/id").queryParam("patientId", "150"))
                 .andExpect(status().isNotFound());
 
     }
 
     @Test
     void TestGetPatientByFirstNameAndLastName() throws Exception {
-       mockMvc.perform(get("/api/patient/patient").queryParam("firstName", "John").queryParam("lastName", "Doe"))
+       mockMvc.perform(get("/api/patient").queryParam("firstName", "Test").queryParam("lastName", "TestNone"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("@.firstName", is("John")))
-               .andExpect(jsonPath("@.lastName", is("Doe")));
+                .andExpect(jsonPath("@.firstName", is("Test")))
+               .andExpect(jsonPath("@.lastName", is("TestNone")));
 
     }
 
     @Test
     void TestGetPatientByBadFirstNameAndBadLastName() throws Exception {
-        mockMvc.perform(get("/api/patient/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
+        mockMvc.perform(get("/api/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
                 .andExpect(status().isNotFound());
 
     }
@@ -89,7 +89,7 @@ class PatientControllerIT {
         PatientFullDto patientUpdateDto = new PatientFullDto(2, "test2", "test2", LocalDate.now().minusYears(30), 'F',
                 "77 rue du test", "550-550-550");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
-        mockMvc.perform(put("/api/patient/patient/update")
+        mockMvc.perform(put("/api/patient/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isOk());
@@ -102,7 +102,7 @@ class PatientControllerIT {
         PatientFullDto patientUpdateDto = new PatientFullDto(28, "test2", "test2", LocalDate.now().minusYears(30), 'F',
                 "77 rue du test", "550-550-550");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
-        mockMvc.perform(put("/api/patient/patient/update")
+        mockMvc.perform(put("/api/patient/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
@@ -120,7 +120,7 @@ class PatientControllerIT {
         patientCreateDto.setAddress("13 rue du test");
         patientCreateDto.setPhoneNumber("666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientCreateDto);
-        mockMvc.perform(post("/api/patient/patient/add/json")
+        mockMvc.perform(post("/api/patient/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isCreated());
@@ -129,14 +129,14 @@ class PatientControllerIT {
     @Test
     void TestCreatePatientFromJsonWhichAlreadyExist() throws Exception {
         PatientFullDto patientCreateDto = new PatientFullDto();
-        patientCreateDto.setFirstName("John");
-        patientCreateDto.setLastName("Doe");
+        patientCreateDto.setFirstName("Test");
+        patientCreateDto.setLastName("TestNone");
         patientCreateDto.setDateOfBirth(LocalDate.now().minusYears(20));
         patientCreateDto.setGender('M');
         patientCreateDto.setAddress("13 rue du test");
         patientCreateDto.setPhoneNumber("666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientCreateDto);
-        mockMvc.perform(post("/api/patient/patient/add/json")
+        mockMvc.perform(post("/api/patient/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
@@ -144,7 +144,7 @@ class PatientControllerIT {
 
     @Test
     void TestCreatePatient() throws Exception {
-        mockMvc.perform(post("/api/patient/patient/add")
+        mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "test12")
                         .queryParam("given", "test12")
                         .queryParam("dob", "1945-03-01")
@@ -157,9 +157,9 @@ class PatientControllerIT {
 
     @Test
     void TestCreatePatientWhichAlreadyExist() throws Exception {
-        mockMvc.perform(post("/api/patient/patient/add")
-                        .queryParam("family", "Doe")
-                        .queryParam("given", "John")
+        mockMvc.perform(post("/api/patient/add")
+                        .queryParam("family", "TestNone")
+                        .queryParam("given", "Test")
                         .queryParam("dob", "1945-03-01")
                         .queryParam("sex", "M")
                         .queryParam("address", "13 rue du test")

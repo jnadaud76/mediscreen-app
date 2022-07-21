@@ -47,7 +47,7 @@ class PatientControllerTest {
                 "12 rue du test", "555-555-555");
         patients.add(patient);
         when(patientService.getAllPatient()).thenReturn(patients);
-        mockMvc.perform(get("/api/patient/patients"))
+        mockMvc.perform(get("/api/patients"))
                 .andExpect(status().isOk());
     }
 
@@ -56,7 +56,7 @@ class PatientControllerTest {
         Patient patient = new Patient(1, "test", "test", LocalDate.now().minusYears(20), 'M',
               "12 rue du test", "555-555-555");
        when(patientService.getPatientById(1)).thenReturn(Optional.of(patient));
-        mockMvc.perform(get("/api/patient/patient/id").queryParam("patientId", "1"))
+        mockMvc.perform(get("/api/patient/id").queryParam("patientId", "1"))
                 .andExpect(status().isOk());
 
     }
@@ -64,7 +64,7 @@ class PatientControllerTest {
     @Test
     void TestGetPatientByIdWithBadId() throws Exception {
         when(patientService.getPatientById(1)).thenReturn(Optional.empty());
-        mockMvc.perform(get("/api/patient/patient/id").queryParam("patientId", "1"))
+        mockMvc.perform(get("/api/patient/id").queryParam("patientId", "1"))
                 .andExpect(status().isNotFound());
 
     }
@@ -74,7 +74,7 @@ class PatientControllerTest {
         Patient patient = new Patient(1, "test", "test", LocalDate.now().minusYears(20), 'M',
                 "12 rue du test", "555-555-555");
         when(patientService.getPatientByFirstNameAndLastName("test","test")).thenReturn(Optional.of(patient));
-        mockMvc.perform(get("/api/patient/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
+        mockMvc.perform(get("/api/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
                 .andExpect(status().isOk());
 
     }
@@ -82,7 +82,7 @@ class PatientControllerTest {
     @Test
     void TestGetPatientByBadFirstNameAndBadLastName() throws Exception {
         when(patientService.getPatientByFirstNameAndLastName("test1","test1")).thenReturn(Optional.empty());
-        mockMvc.perform(get("/api/patient/patient").queryParam("firstName", "test1").queryParam("lastName", "test1"))
+        mockMvc.perform(get("/api/patient").queryParam("firstName", "test1").queryParam("lastName", "test1"))
                 .andExpect(status().isNotFound());
 
     }
@@ -96,7 +96,7 @@ class PatientControllerTest {
        Patient patientToUpdate = OBJECT_MAPPER.convertValue(patientUpdateDto, Patient.class);
        String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
        when(patientService.updatePatient(patientToUpdate)).thenReturn(patientUpdated);
-       mockMvc.perform(put("/api/patient/patient/update")
+       mockMvc.perform(put("/api/patient/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isOk());
@@ -110,7 +110,7 @@ class PatientControllerTest {
                 "13 rue du test", "666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
         when(patientService.updatePatient(patientUpdate)).thenReturn(null);
-        mockMvc.perform(put("/api/patient/patient/update")
+        mockMvc.perform(put("/api/patient/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
@@ -131,7 +131,7 @@ class PatientControllerTest {
                 "13 rue du test", "666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientCreateDto);
         when(patientService.savePatient(patient)).thenReturn(patient);
-        mockMvc.perform(post("/api/patient/patient/add/json")
+        mockMvc.perform(post("/api/patient/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isCreated());
@@ -150,7 +150,7 @@ class PatientControllerTest {
                 "13 rue du test", "666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientCreateDto);
         when(patientService.getPatientByFirstNameAndLastName("test2","test2")).thenReturn(Optional.of(patient));
-        mockMvc.perform(post("/api/patient/patient/add/json")
+        mockMvc.perform(post("/api/patient/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
@@ -161,7 +161,7 @@ class PatientControllerTest {
         Patient patient = new Patient(28, "test2", "test2", LocalDate.parse("1945-03-01"), 'M',
                 "13 rue du test", "666-666-666");
         when(patientService.savePatient(patient)).thenReturn(patient);
-        mockMvc.perform(post("/api/patient/patient/add")
+        mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "test2")
                         .queryParam("given", "test2")
                         .queryParam("dob", "1945-03-01")
@@ -177,7 +177,7 @@ class PatientControllerTest {
         Patient patient = new Patient(28, "test2", "test2", LocalDate.parse("1945-03-01"), 'M',
                 "13 rue du test", "666-666-666");
         when(patientService.getPatientByFirstNameAndLastName("test2","test2")).thenReturn(Optional.of(patient));
-        mockMvc.perform(post("/api/patient/patient/add")
+        mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "test2")
                         .queryParam("given", "test2")
                         .queryParam("dob", "1945-03-01")

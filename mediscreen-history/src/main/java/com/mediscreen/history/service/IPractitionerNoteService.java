@@ -12,8 +12,6 @@ public interface IPractitionerNoteService {
 
     PractitionerNote updatePractitionerNote(PractitionerNote noteUpdate);
 
-    PractitionerNote getPractitionerNoteById (String noteId);
-
     PractitionerNote savePractitionerNote(PractitionerNote note);
 
 }

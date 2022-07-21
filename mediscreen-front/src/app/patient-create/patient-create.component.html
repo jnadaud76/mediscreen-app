@@ -36,7 +36,7 @@
           Date of birth is required
         </div>
         <div class="alert-danger col-11"
-             *ngIf="patientCreateForm.errors?.['dateValidator'] && patientCreateForm.touched">
+             *ngIf="patientCreateForm.controls['dateOfBirth'].errors && patientCreateForm.controls['dateOfBirth'].touched">
           Date of birth must be in past
         </div>
       </div>

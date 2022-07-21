@@ -8,10 +8,16 @@ import {ReportModel} from "../model/report.model";
 })
 export class ReportService {
 
+  private _REPORT_API_URL:string = "http://localhost:8080/api"
+
+  get REPORT_API_URL(): string {
+    return this._REPORT_API_URL;
+  }
+
   constructor(private http: HttpClient) {
   }
 
   getReportByPatientId(patientId: number): Observable<ReportModel> {
-    return this.http.get<ReportModel>(`http://localhost:8080/api/report/id?patientId=${patientId}`);
+    return this.http.get<ReportModel>(this.REPORT_API_URL + `/report/id?patientId=${patientId}`);
   }
 }

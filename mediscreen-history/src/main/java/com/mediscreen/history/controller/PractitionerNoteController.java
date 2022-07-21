@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api("API for practitioner's notes CRUD operations.")
 @CrossOrigin("*")
-@RequestMapping(value = "api/history")
+@RequestMapping(value = "api")
 @RestController
 public class PractitionerNoteController {
 

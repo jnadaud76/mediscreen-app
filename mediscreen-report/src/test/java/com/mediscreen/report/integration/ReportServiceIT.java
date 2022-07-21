@@ -68,4 +68,43 @@ class ReportServiceIT {
         assertNull(report);
     }
 
+    @Test
+    void generateReportByFamilyNameAndGivenNone() throws Exception {
+        IReportService reportService = new ReportService(historyServiceProxy,
+                patientServiceProxy, calculator);
+        Report report = reportService.generateReport(1);
+        assertEquals("NONE", report.getRiskLevel());
+    }
+
+    @Test
+    void generateReportByFamilyNameAndGivenBorderline() throws Exception {
+        IReportService reportService = new ReportService(historyServiceProxy,
+                patientServiceProxy, calculator);
+        Report report = reportService.generateReport(2);
+        assertEquals("BORDERLINE", report.getRiskLevel());
+    }
+
+    @Test
+    void generateReportByFamilyNameAndGivenInDanger() throws Exception {
+        IReportService reportService = new ReportService(historyServiceProxy,
+                patientServiceProxy, calculator);
+        Report report = reportService.generateReport(3);
+        assertEquals("IN_DANGER", report.getRiskLevel());
+    }
+
+    @Test
+    void generateReportByFamilyNameAndGivenEarlyOnset() throws Exception {
+        IReportService reportService = new ReportService(historyServiceProxy,
+                patientServiceProxy, calculator);
+        Report report = reportService.generateReport(4);
+        assertEquals("EARLY_ONSET", report.getRiskLevel());
+    }
+    @Test
+    void generateReportByFamilyNameAndGivenWithBadPatientGivenAndFamilyName() throws Exception {
+        IReportService reportService = new ReportService(historyServiceProxy,
+                patientServiceProxy, calculator);
+        Report report = reportService.generateReportByFamilyNameAndGiven("test","testghyyyy");
+        assertNull(report);
+    }
+
 }

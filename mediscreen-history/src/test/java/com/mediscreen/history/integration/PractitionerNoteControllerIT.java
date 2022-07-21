@@ -73,27 +73,27 @@ class PractitionerNoteControllerIT {
 
     @Test
     void TestGetAllNotes() throws Exception {
-        mockMvc.perform(get("/api/history/patHistory"))
+        mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void TestGetAllNotesWithoutNotes() throws Exception {
         practitionerNoteRepository.deleteAll();
-        mockMvc.perform(get("/api/history/patHistory"))
+        mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isNotFound());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2})
     void TestGetAllPractitionerNoteByPatientId(int ints) throws Exception {
-        mockMvc.perform(get("/api/history/patHistory/id").queryParam("patientId", String.valueOf(ints)))
+        mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", String.valueOf(ints)))
                 .andExpect(status().isOk());
     }
 
     @Test
     void TestGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
-        mockMvc.perform(get("/api/history/patHistory/id").queryParam("patientId", "3"))
+        mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", "3"))
                 .andExpect(status().isNotFound());
     }
 
@@ -105,7 +105,7 @@ class PractitionerNoteControllerIT {
         noteFullDto.setNote("test10");
         noteFullDto.setCreationDate(LocalDateTime.parse("2022-07-04T08:20:00"));
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
-        mockMvc.perform(put("/api/history/patHistory/update")
+        mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                         .andExpect(status().isOk());
@@ -119,7 +119,7 @@ class PractitionerNoteControllerIT {
         noteFullDto.setNote("test1");
         noteFullDto.setCreationDate(LocalDateTime.parse("2022-07-04T08:20:00"));
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
-        mockMvc.perform(put("/api/history/patHistory/update")
+        mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isBadRequest());
@@ -131,7 +131,7 @@ class PractitionerNoteControllerIT {
         noteFullDto.setPatientId(2);
         noteFullDto.setNote("test2");
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
-        mockMvc.perform(post("/api/history/patHistory/add/json")
+        mockMvc.perform(post("/api/patHistory/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isCreated());
@@ -139,7 +139,7 @@ class PractitionerNoteControllerIT {
 
     @Test
     void TestCreatePractitionerNote() throws Exception {
-        mockMvc.perform(post("/api/history/patHistory/add")
+        mockMvc.perform(post("/api/patHistory/add")
                         .queryParam("patId", "1")
                         .queryParam("e", "test test")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))

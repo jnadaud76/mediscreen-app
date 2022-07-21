@@ -13,4 +13,8 @@ public interface PatientServiceProxy {
 
     @GetMapping("/patient/id")
     Patient getPatientById(@RequestParam Integer patientId);
+
+    @GetMapping("/patient")
+    Patient getPatientByFirstNameAndLastName(@RequestParam String firstName,
+                                             @RequestParam String lastName);
 }

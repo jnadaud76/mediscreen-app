@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api("API for patient CRUD operations.")
 @CrossOrigin("*")
-@RequestMapping(value = "api/patient")
+@RequestMapping(value = "api")
 @RestController
 public class PatientController {
 
