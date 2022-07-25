@@ -3,12 +3,16 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientModel} from "../shared/model/patient.model";
 import {PatientService} from "../shared/service/patient.service";
 import {Router} from "@angular/router";
-import {map} from "rxjs";
+import {catchError, map, throwError} from "rxjs";
+import {DatePipe} from "@angular/common";
+import {dateValidation} from "../util/dob-validator";
+
 
 @Component({
   selector: 'app-patient-create',
   templateUrl: './patient-create.component.html',
-  styleUrls: ['./patient-create.component.scss']
+  styleUrls: ['./patient-create.component.scss'],
+  providers: [DatePipe]
 })
 export class PatientCreateComponent implements OnInit {
 
@@ -16,21 +20,25 @@ export class PatientCreateComponent implements OnInit {
   @Input()
   showCreate!: boolean;
   patientCreate!: PatientModel;
+  errorMessage!: string;
+  currentDate=new Date();
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private datePipe: DatePipe, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
+
     this.patientCreateForm = this.formBuilder.group({
       lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
-      dateOfBirth: ['', {validators: [Validators.required]}],
+      dateOfBirth: [this.datePipe.transform(this.currentDate, 'yyyy-MM-dd'), {validators: [Validators.required, dateValidation.bind(this)]}],
       gender: ['', {validators: Validators.required}],
       address: ['', {validators: [Validators.maxLength(300)]}],
       phoneNumber: ['', {validators: [Validators.maxLength(20)]}],
     }, {
       updateOn: 'change',
+
     });
-  }
+   }
 
   onSubmitForm() {
     this.patientCreate = {
@@ -43,11 +51,14 @@ export class PatientCreateComponent implements OnInit {
       phoneNumber: this.patientCreateForm.value.phoneNumber
     }
 
-    this.patientService.createPatient(this.patientCreate)
+    this.patientService.createPatient(this.patientCreate).pipe(catchError(error => {
+      this.errorMessage = error;
+      return throwError(() => error.message());
+    }))
       .pipe(map(() => this.router.navigateByUrl('dashboard'))).subscribe();
   }
 
-  onCancelForm() {
+   onCancelForm() {
     this.router.navigateByUrl('dashboard')
   }
 

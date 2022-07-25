@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +23,16 @@ class ReportControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"1,NONE", "2,BORDERLINE", "3,IN_DANGER", "4,EARLY_ONSET"})
+    void testGetReport(String input, String expected) throws Exception {
+        mockMvc.perform(get("/api/report/id")
+                        .queryParam("patientId", input))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.riskLevel", is(expected)));
+    }
+
+    /*@Test
     void TestGetReportNone() throws Exception {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "1"))
@@ -51,26 +62,26 @@ class ReportControllerIT {
                         .queryParam("patientId", "4"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.riskLevel", is ("EARLY_ONSET")));
-    }
+    }*/
 
     @Test
-    void TestGetReportWithBadPatientId() throws Exception {
+    void testGetReportWithBadPatientId() throws Exception {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "125"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void TestGetCurlReportById() throws Exception {
+    void testGetCurlReportById() throws Exception {
         mockMvc.perform(post("/api/assess/id")
                         .queryParam("patId", "1")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$", containsString ("NONE")));
     }
 
     @Test
-    void TestGetCurlReportByIdWithBadId() throws Exception {
+    void testGetCurlReportByIdWithBadId() throws Exception {
         mockMvc.perform(post("/api/assess/id")
                         .queryParam("patId", "125")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
@@ -78,17 +89,17 @@ class ReportControllerIT {
     }
 
     @Test
-    void TestGetCurlReportByFamilyName() throws Exception {
+    void testGetCurlReportByFamilyName() throws Exception {
         mockMvc.perform(post("/api/assess/familyName")
                         .queryParam("given", "test")
                         .queryParam("familyName", "testnone")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$", containsString ("NONE")));
     }
 
     @Test
-    void TestGetCurlReportByIdFamilyNameWithBadArguments() throws Exception {
+    void testGetCurlReportByIdFamilyNameWithBadArguments() throws Exception {
         mockMvc.perform(post("/api/assess/familyName")
                         .queryParam("given", "toto")
                         .queryParam("familyName", "tata")

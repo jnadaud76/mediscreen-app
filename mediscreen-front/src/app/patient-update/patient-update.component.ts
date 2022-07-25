@@ -4,6 +4,7 @@ import {PatientModel} from "../shared/model/patient.model";
 import {PatientService} from "../shared/service/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {map, Observable} from "rxjs";
+import {dateValidation} from "../util/dob-validator";
 
 @Component({
   selector: 'app-patient-update',
@@ -28,7 +29,7 @@ export class PatientUpdateComponent implements OnInit {
     this.patientUpdateForm = this.formBuilder.group({
       lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
-      dateOfBirth: ['', {validators: Validators.required}],
+      dateOfBirth: ['', {validators: [Validators.required, dateValidation.bind(this)]}],
       gender: ['', {validators: Validators.required}],
       address: ['', {validators: Validators.maxLength(300)}],
       phoneNumber: ['', {validators: Validators.maxLength(20)}],

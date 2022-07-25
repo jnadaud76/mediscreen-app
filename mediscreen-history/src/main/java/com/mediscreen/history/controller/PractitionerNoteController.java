@@ -90,7 +90,7 @@ public class PractitionerNoteController {
         }
     }
 
-    @ApiOperation(value = "Create one practitioner's note from from URLENCODED_VALUE.")
+    @ApiOperation(value = "Create one practitioner's note from URLENCODED_VALUE.")
     @PostMapping(value="/patHistory/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PractitionerNoteFullDto> createPatient (@Valid PractitionerNoteFromStringDto practitionerNoteFromStringDto) {

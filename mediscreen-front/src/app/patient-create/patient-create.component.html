@@ -29,15 +29,16 @@
         </div>
       </div>
       <div class="form-group  col-11 mx-5 my-4">
-        <label for="dateOfBirth">Date of birth</label><br>
+
+       <label for="dateOfBirth">Date of birth</label><br>
         <input class="col-11" id="dateOfBirth" type="date" formControlName="dateOfBirth">
         <div class="alert-danger col-11"
              *ngIf="patientCreateForm.controls['dateOfBirth'].hasError('required') && patientCreateForm.controls['dateOfBirth'].touched">
           Date of birth is required
         </div>
         <div class="alert-danger col-11"
-             *ngIf="patientCreateForm.controls['dateOfBirth'].errors && patientCreateForm.controls['dateOfBirth'].touched">
-          Date of birth must be in past
+             *ngIf="patientCreateForm.controls['dateOfBirth'].hasError('invalidDate') && patientCreateForm.controls['dateOfBirth'].touched">
+          Date must be in past
         </div>
       </div>
       <div class="form-group col-11 mx-5">
@@ -64,11 +65,17 @@
           20 characters max.
         </div>
       </div>
+     <div *ngIf="errorMessage" class="alert alert-warning col-8 text-center mx-auto">
+        <strong>Patient already exist, can't be create</strong>
+      </div>
       <div class="col-6 text-center mx-auto">
         <div class="row">
           <div class="col-6 text-center mt-3">
             <button type="submit" (click)="onSubmitForm()" class="btn btn-success"
-                    [disabled]="patientCreateForm.invalid">
+                   [disabled]="patientCreateForm.invalid
+                   || patientCreateForm.controls['lastName'].value==''
+                   || patientCreateForm.controls['firstName'].value==''
+                   ">
               Validate
             </button>
           </div>

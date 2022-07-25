@@ -5,7 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { PatientComponent } from './patient/patient.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app-routing.module";
 import { HeaderComponent } from './header/header.component';
 import { PatientUpdateComponent } from './patient-update/patient-update.component';
@@ -17,6 +17,7 @@ import { PractitionernoteCreateComponent } from './practitionernote-create/pract
 import { PractitionernoteUpdateComponent } from './practitionernote-update/practitionernote-update.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from "@angular/material/icon";
+
 
 
 @NgModule({
@@ -36,12 +37,10 @@ import {MatIconModule} from "@angular/material/icon";
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule,
     NgxPaginationModule,
     MatButtonModule,
     NoopAnimationsModule,
     MatIconModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]

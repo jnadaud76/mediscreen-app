@@ -72,13 +72,13 @@ class PractitionerNoteControllerIT {
     }
 
     @Test
-    void TestGetAllNotes() throws Exception {
+    void testGetAllNotes() throws Exception {
         mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void TestGetAllNotesWithoutNotes() throws Exception {
+    void testGetAllNotesWithoutNotes() throws Exception {
         practitionerNoteRepository.deleteAll();
         mockMvc.perform(get("/api/patHistory"))
                 .andExpect(status().isNotFound());
@@ -86,19 +86,19 @@ class PractitionerNoteControllerIT {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2})
-    void TestGetAllPractitionerNoteByPatientId(int ints) throws Exception {
+    void testGetAllPractitionerNoteByPatientId(int ints) throws Exception {
         mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", String.valueOf(ints)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void TestGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
+    void testGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
         mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", "3"))
                 .andExpect(status().isNotFound());
     }
 
         @Test
-        void TestUpdatePractitionerNote() throws Exception {
+        void testUpdatePractitionerNote() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setId("2222");
         noteFullDto.setPatientId(1);
@@ -112,7 +112,7 @@ class PractitionerNoteControllerIT {
     }
 
     @Test
-    void TestUpdatePractitionerNoteWhichDontExist() throws Exception {
+    void testUpdatePractitionerNoteWhichDontExist() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setId("8888");
         noteFullDto.setPatientId(125);
@@ -126,7 +126,7 @@ class PractitionerNoteControllerIT {
     }
 
     @Test
-    void TestCreatePractitionerNoteFromJson() throws Exception {
+    void testCreatePractitionerNoteFromJson() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setPatientId(2);
         noteFullDto.setNote("test2");
@@ -138,7 +138,7 @@ class PractitionerNoteControllerIT {
     }
 
     @Test
-    void TestCreatePractitionerNote() throws Exception {
+    void testCreatePractitionerNote() throws Exception {
         mockMvc.perform(post("/api/patHistory/add")
                         .queryParam("patId", "1")
                         .queryParam("e", "test test")

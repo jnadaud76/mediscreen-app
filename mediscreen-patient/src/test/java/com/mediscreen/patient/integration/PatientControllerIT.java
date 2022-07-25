@@ -55,21 +55,21 @@ class PatientControllerIT {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4})
-    void TestGetPatientById(int ints) throws Exception {
+    void testGetPatientById(int ints) throws Exception {
           mockMvc.perform(get("/api/patient/id").queryParam("patientId", String.valueOf(ints)))
                 .andExpect(status().isOk());
 
     }
 
     @Test
-    void TestGetPatientByIdWithBadId() throws Exception {
+    void testGetPatientByIdWithBadId() throws Exception {
          mockMvc.perform(get("/api/patient/id").queryParam("patientId", "150"))
                 .andExpect(status().isNotFound());
 
     }
 
     @Test
-    void TestGetPatientByFirstNameAndLastName() throws Exception {
+    void testGetPatientByFirstNameAndLastName() throws Exception {
        mockMvc.perform(get("/api/patient").queryParam("firstName", "Test").queryParam("lastName", "TestNone"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("@.firstName", is("Test")))
@@ -78,14 +78,14 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestGetPatientByBadFirstNameAndBadLastName() throws Exception {
+    void testGetPatientByBadFirstNameAndBadLastName() throws Exception {
         mockMvc.perform(get("/api/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
                 .andExpect(status().isNotFound());
 
     }
 
     @Test
-    void TestUpdatePatient() throws Exception {
+    void testUpdatePatient() throws Exception {
         PatientFullDto patientUpdateDto = new PatientFullDto(2, "test2", "test2", LocalDate.now().minusYears(30), 'F',
                 "77 rue du test", "550-550-550");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
@@ -98,7 +98,7 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestUpdatePatientWithBadId() throws Exception {
+    void testUpdatePatientWithBadId() throws Exception {
         PatientFullDto patientUpdateDto = new PatientFullDto(28, "test2", "test2", LocalDate.now().minusYears(30), 'F',
                 "77 rue du test", "550-550-550");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
@@ -111,7 +111,7 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestCreatePatientFromJson() throws Exception {
+    void testCreatePatientFromJson() throws Exception {
         PatientFullDto patientCreateDto = new PatientFullDto();
         patientCreateDto.setFirstName("test22");
         patientCreateDto.setLastName("test22");
@@ -127,7 +127,7 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestCreatePatientFromJsonWhichAlreadyExist() throws Exception {
+    void testCreatePatientFromJsonWhichAlreadyExist() throws Exception {
         PatientFullDto patientCreateDto = new PatientFullDto();
         patientCreateDto.setFirstName("Test");
         patientCreateDto.setLastName("TestNone");
@@ -143,7 +143,7 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestCreatePatient() throws Exception {
+    void testCreatePatient() throws Exception {
         mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "test12")
                         .queryParam("given", "test12")
@@ -156,7 +156,7 @@ class PatientControllerIT {
     }
 
     @Test
-    void TestCreatePatientWhichAlreadyExist() throws Exception {
+    void testCreatePatientWhichAlreadyExist() throws Exception {
         mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "TestNone")
                         .queryParam("given", "Test")

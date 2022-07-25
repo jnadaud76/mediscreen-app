@@ -1,5 +1,6 @@
 package com.mediscreen.history.unit;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,7 +44,7 @@ class PractitionerNoteControllerTest {
     private IConversion conversion;
 
     @Test
-    void TestGetAllNotes() throws Exception {
+    void testGetAllNotes() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         PractitionerNote note = new PractitionerNote();
         note.setPatientId(1);
@@ -56,7 +57,7 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestGetAllNotesWithoutNotes() throws Exception {
+    void testGetAllNotesWithoutNotes() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         when(practitionerNoteService.getAllPractitionerNote()).thenReturn(notes);
         mockMvc.perform(get("/api/patHistory"))
@@ -64,7 +65,7 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestGetAllPractitionerNoteByPatientId() throws Exception {
+    void testGetAllPractitionerNoteByPatientId() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         PractitionerNote note = new PractitionerNote();
         note.setPatientId(1);
@@ -77,15 +78,15 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
+    void testGetAllPractitionerNoteByPatientIdWithBadId() throws Exception {
         List<PractitionerNote> notes = new ArrayList<>();
         when(practitionerNoteService.getAllPractitionerNoteByPatientId(1)).thenReturn(notes);
         mockMvc.perform(get("/api/patHistory/id").queryParam("patientId", "1"))
                 .andExpect(status().isNotFound());
     }
 
-    /*@Test
-    void TestUpdatePractitionerNote() throws Exception {
+    @Test
+    void testUpdatePractitionerNote() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setId("111111111111111");
         noteFullDto.setPatientId(2);
@@ -94,16 +95,16 @@ class PractitionerNoteControllerTest {
         PractitionerNote note = OBJECT_MAPPER.convertValue(noteFullDto, PractitionerNote.class);
         //notes.add(note);
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
-        when(practitionerNoteService.updatePractitionerNote(note))
+        when(practitionerNoteService.updatePractitionerNote(any(PractitionerNote.class)))
                 .thenReturn(note);
         mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
                 .andExpect(status().isOk());
-    }*/
+    }
 
     @Test
-    void TestUpdatePractitionerNoteWhichDontExist() throws Exception {
+    void testUpdatePractitionerNoteWhichDontExist() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setId("111111111111111");
         noteFullDto.setPatientId(2);
@@ -120,7 +121,7 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestCreatePractitionerNoteFromJson() throws Exception {
+    void testCreatePractitionerNoteFromJson() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setPatientId(2);
         noteFullDto.setNote("test2");
@@ -141,7 +142,7 @@ class PractitionerNoteControllerTest {
     }
 
     @Test
-    void TestCreatePractitionerNote() throws Exception {
+    void testCreatePractitionerNote() throws Exception {
         PractitionerNoteFromStringDto noteFromString = new PractitionerNoteFromStringDto();
         noteFromString.setPatId("1");
         noteFromString.setE("test test");

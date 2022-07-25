@@ -46,7 +46,7 @@ public class ReportController {
         }
     }
 
-    @ApiOperation(value = "Send one report by patient by patient id from URLENCODED_VALUE.")
+    @ApiOperation(value = "Send one report by patient id from URLENCODED_VALUE.")
     @PostMapping(value = "/assess/id", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCurlReportById(Integer patId) {
         Report report = reportService.generateReport(patId);
@@ -55,7 +55,7 @@ public class ReportController {
                     " (age " + report.getAge() + ") diabetes assessment is: " +
                     report.getRiskLevel();
             LOGGER.info("Report successfully send - code : {}", HttpStatus.OK);
-            return ResponseEntity.status(HttpStatus.OK).body(reportAsString);
+            return ResponseEntity.status(HttpStatus.CREATED).body(reportAsString);
         } else {
             LOGGER.error("Report can't be send, Patient don't exist - code : {}", HttpStatus.NOT_FOUND);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -63,7 +63,7 @@ public class ReportController {
 
     }
 
-    @ApiOperation(value = "Send one report by patient given and familyName from URLENCODED_VALUE.")
+    @ApiOperation(value = "Send one report by patient's given and familyName from URLENCODED_VALUE.")
     @PostMapping (value = "/assess/familyName", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCurlReportByFamilyName(String given, String familyName) {
         Report report = reportService.generateReportByFamilyNameAndGiven(given, familyName);
@@ -72,7 +72,7 @@ public class ReportController {
                     " (age " + report.getAge() + ") diabetes assessment is: " +
                     report.getRiskLevel();
             LOGGER.info("Report successfully send - code : {}", HttpStatus.OK);
-            return ResponseEntity.status(HttpStatus.OK).body(reportAsString);
+            return ResponseEntity.status(HttpStatus.CREATED).body(reportAsString);
         } else {
             LOGGER.error("Report can't be send, Patient don't exist - code : {}", HttpStatus.NOT_FOUND);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
