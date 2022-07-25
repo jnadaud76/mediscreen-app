@@ -8,7 +8,9 @@
         <label for="note">Note</label><br>
         <textarea class="col-12" id="note" rows="10" formControlName="note"></textarea>
         <div class="alert-danger col-11"
-             *ngIf="noteCreateForm.controls['note'].hasError('required') && noteCreateForm.controls['note'].touched">
+             *ngIf="(noteCreateForm.controls['note'].hasError('required') ||
+              noteCreateForm.controls['note'].hasError('whitespace'))
+              && noteCreateForm.controls['note'].touched">
           Note is required.
         </div>
       </div>

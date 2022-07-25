@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PractitionerNoteModel} from "../shared/model/practitioner-note.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PractitionerNoteService} from "../shared/service/practitioner-note.service";
+import {noWhitespaceValidator} from "../util/whitespace-validator";
 
 @Component({
   selector: 'app-practitionernote-create',
@@ -21,7 +22,7 @@ export class PractitionernoteCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.noteCreateForm = this.formBuilder.group({
-      note: ['', {validators: Validators.required}],
+      note: ['', {validators: [Validators.required, noWhitespaceValidator]}],
     }, {
       updateOn: 'change'
     });
