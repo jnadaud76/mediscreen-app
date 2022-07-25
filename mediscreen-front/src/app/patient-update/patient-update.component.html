@@ -8,7 +8,9 @@
         <label for="firstName">First Name</label><br>
         <input class="col-11" id="firstName" type="text" formControlName="firstName" [(ngModel)]="patientModel.firstName">
         <div class="alert-danger col-11"
-             *ngIf="patientUpdateForm.controls['firstName'].hasError('required') && patientUpdateForm.controls['firstName'].touched">
+             *ngIf="(patientUpdateForm.controls['firstName'].hasError('required') ||
+              patientUpdateForm.controls['firstName'].hasError('whitespace'))
+              && patientUpdateForm.controls['firstName'].touched">
           First Name is required
         </div>
         <div class="alert-danger col-11"
@@ -20,7 +22,9 @@
         <label for="lastName">Last Name</label><br>
         <input class="col-11" id="lastName" type="text" formControlName="lastName" [(ngModel)]="patientModel.lastName">
         <div class="alert-danger col-11"
-             *ngIf="patientUpdateForm.controls['lastName'].hasError('required') && patientUpdateForm.controls['lastName'].touched">
+             *ngIf="(patientUpdateForm.controls['lastName'].hasError('required') ||
+              patientUpdateForm.controls['lastName'].hasError('whitespace'))
+              && patientUpdateForm.controls['lastName'].touched">
           Last Name is required
         </div>
         <div class="alert-danger col-11"
@@ -67,9 +71,7 @@
         <div class="row">
           <div class="col-6 text-center mt-3">
             <button type="submit" (click)="onSubmitForm()" class="btn btn-success"
-                    [disabled]="patientUpdateForm.invalid
-                   || patientUpdateForm.controls['lastName'].value==''
-                   || patientUpdateForm.controls['firstName'].value==''">
+                    [disabled]="patientUpdateForm.invalid">
               Validate
             </button>
           </div>

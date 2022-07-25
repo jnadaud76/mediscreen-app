@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {catchError, map, throwError} from "rxjs";
 import {DatePipe} from "@angular/common";
 import {dateValidation} from "../util/dob-validator";
+import {noWhitespaceValidator} from "../util/whitespace-validator";
 
 
 @Component({
@@ -28,8 +29,8 @@ export class PatientCreateComponent implements OnInit {
   ngOnInit(): void {
 
     this.patientCreateForm = this.formBuilder.group({
-      lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
-      firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
+      lastName: ['', {validators: [Validators.required, Validators.maxLength(100), noWhitespaceValidator]}],
+      firstName: ['', {validators: [Validators.required, Validators.maxLength(100), noWhitespaceValidator]}],
       dateOfBirth: [this.datePipe.transform(this.currentDate, 'yyyy-MM-dd'), {validators: [Validators.required, dateValidation.bind(this)]}],
       gender: ['', {validators: Validators.required}],
       address: ['', {validators: [Validators.maxLength(300)]}],
