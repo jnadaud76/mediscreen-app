@@ -37,16 +37,13 @@ import io.swagger.annotations.ApiOperation;
 public class PatientController {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientController.class);
-
     private final IConversion conversion;
-
     private final IPatientService patientService;
 
     public PatientController(IPatientService patientService, IConversion conversion) {
         this.patientService = patientService;
-        this.conversion=conversion;
+        this.conversion = conversion;
     }
 
     @ApiOperation(value = "Retrieve all patient.")
@@ -91,10 +88,10 @@ public class PatientController {
     }
 
     @ApiOperation(value = "Update one patient.")
-    @PutMapping(value="/patient/update")
-    public ResponseEntity<PatientFullDto> updatePatient (@Valid @RequestBody PatientFullDto patientUpdateDto) {
+    @PutMapping(value = "/patient/update")
+    public ResponseEntity<PatientFullDto> updatePatient(@Valid @RequestBody PatientFullDto patientUpdateDto) {
         Patient patient = patientService.updatePatient(OBJECT_MAPPER.convertValue(patientUpdateDto, Patient.class));
-        if(patient!=null) {
+        if (patient != null) {
             LOGGER.info("Patient successfully update - code : {}", HttpStatus.OK);
             return ResponseEntity.status(HttpStatus.OK).body(patientUpdateDto);
         } else {
@@ -104,9 +101,9 @@ public class PatientController {
     }
 
     @ApiOperation(value = "Create one patient from JSON.")
-    @PostMapping(value="/patient/add/json")
-    public ResponseEntity<PatientFullDto> createPatientFromJson (@Valid @RequestBody PatientFullDto patientFullDto) {
-       if(!patientService.getPatientByFirstNameAndLastName(patientFullDto.getFirstName(),
+    @PostMapping(value = "/patient/add/json")
+    public ResponseEntity<PatientFullDto> createPatientFromJson(@Valid @RequestBody PatientFullDto patientFullDto) {
+        if (!patientService.getPatientByFirstNameAndLastName(patientFullDto.getFirstName(),
                 patientFullDto.getLastName()).isPresent()) {
             patientService.savePatient(OBJECT_MAPPER.convertValue(patientFullDto, Patient.class));
             LOGGER.info("Patient successfully create - code : {}", HttpStatus.CREATED);
@@ -118,10 +115,10 @@ public class PatientController {
     }
 
     @ApiOperation(value = "Create one patient from URLENCODED_VALUE.")
-    @PostMapping(value="/patient/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+    @PostMapping(value = "/patient/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PatientFromStringDto> createPatient (@Valid PatientFromStringDto patientFromStringDto) {
-        if(!patientService.getPatientByFirstNameAndLastName(patientFromStringDto.getGiven(),
+    public ResponseEntity<PatientFromStringDto> createPatient(@Valid PatientFromStringDto patientFromStringDto) {
+        if (!patientService.getPatientByFirstNameAndLastName(patientFromStringDto.getGiven(),
                 patientFromStringDto.getFamily()).isPresent()) {
             patientService.savePatient(conversion.patientFromStringDtoToPatient(patientFromStringDto));
             LOGGER.info("Patient successfully create - code : {}", HttpStatus.CREATED);

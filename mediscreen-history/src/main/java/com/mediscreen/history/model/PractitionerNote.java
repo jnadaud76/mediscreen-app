@@ -12,12 +12,9 @@ public class PractitionerNote {
 
     @Id
     private String id;
-
     private int patientId;
-
     @NotBlank(message = "note is mandatory")
     private String note;
-
     private LocalDateTime creationDate;
 
     public LocalDateTime getCreationDate() {

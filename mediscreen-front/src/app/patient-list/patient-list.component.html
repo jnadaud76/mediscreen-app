@@ -28,7 +28,8 @@
       </div>
     </div>
     <div class="col-1 mx-1 my-4">
-      <button id="search" type="submit" (click)="onSubmitSearch()" class="btn btn-primary mx-5" [disabled]="patientForm.invalid">
+      <button id="search" type="submit" (click)="onSubmitSearch()" class="btn btn-primary mx-5"
+              [disabled]="patientForm.invalid">
         Search
       </button>
     </div>
@@ -39,8 +40,6 @@
 
   </form>
 </div>
-
-
 <div class="col-11 mx-auto mt-2" *ngIf="showPatient==true">
   <div class="row">
     <div class="col-6">
@@ -60,7 +59,7 @@
       <th class="col-1" scope="col">Gender</th>
       <th class="col-4" scope="col">Address</th>
       <th class="col-2" scope="col">PhoneNumber</th>
-      <th class="col-1" scope="col">Update</th>
+      <th class="col-1" scope="col">Show</th>
     </tr>
     </thead>
     <tbody>
@@ -82,9 +81,6 @@
     <strong>Patient doesn't exist</strong>
   </div>
 </div>
-
-
-
 <div class="col-11 mx-auto mt-2" *ngIf="showPatients==true">
   <div class="row">
     <div class="col-6">
@@ -104,12 +100,11 @@
       <th class="col-1" scope="col">Gender</th>
       <th class="col-4" scope="col">Address</th>
       <th class="col-2" scope="col">PhoneNumber</th>
-      <th class="col-1" scope="col">Update</th>
+      <th class="col-1" scope="col">Show</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let patientModel of (patientList$ | async)! | paginate:{itemsPerPage: 8, currentPage: pageNumber}">
-
       <td class="col-1">{{patientModel.firstName}}</td>
       <td class="col-1">{{patientModel.lastName}}</td>
       <td class="col-2">{{patientModel.dateOfBirth | date: 'yyyy-MM-dd'}}</td>

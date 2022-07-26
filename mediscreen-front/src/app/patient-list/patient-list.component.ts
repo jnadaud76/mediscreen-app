@@ -14,36 +14,36 @@ export class PatientListComponent implements OnInit {
 
   patientList$!: Observable<PatientModel[]>
   patient$!: Observable<PatientModel>
-  patientForm! : FormGroup;
+  patientForm!: FormGroup;
   pageNumber: number = 1
-  showPatients=true;
-  showPatientDetails=false;
-  showPatient=false;
+  showPatients = true;
+  showPatientDetails = false;
+  showPatient = false;
   patientId!: number;
   errorMessage!: string;
 
-  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.patientList$ = this.patientService.getAllPatient();
     this.patientForm = this.formBuilder.group({
       lastName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100)]}],
-
     }, {
       updateOn: 'change'
     });
   }
 
   onSubmitSearch() {
-    this.errorMessage="";
+    this.errorMessage = "";
     this.patient$ = this.patientService.getPatient(this.patientForm.value.firstName, this.patientForm.value.lastName)
       .pipe(catchError(error => {
-        this.errorMessage=error;
-        return throwError(()=> error.message())
+        this.errorMessage = error;
+        return throwError(() => error.message())
       }));
-    this.showPatients=false;
-    this.showPatient=true;
+    this.showPatients = false;
+    this.showPatient = true;
   }
 
   onSubmitClear() {
@@ -55,8 +55,8 @@ export class PatientListComponent implements OnInit {
     this.router.navigateByUrl('patient-create');
   }
 
-  onShow (id: number) {
-    this.patientId=id
+  onShow(id: number) {
+    this.patientId = id
     this.router.navigateByUrl(`patient/${this.patientId}`)
   }
 

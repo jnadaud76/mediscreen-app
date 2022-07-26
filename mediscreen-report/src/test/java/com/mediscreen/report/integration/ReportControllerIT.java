@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.hamcrest.CoreMatchers.is;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -32,37 +33,13 @@ class ReportControllerIT {
                 .andExpect(jsonPath("$.riskLevel", is(expected)));
     }
 
-    /*@Test
-    void TestGetReportNone() throws Exception {
-        mockMvc.perform(get("/api/report/id")
-                        .queryParam("patientId", "1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("NONE")));
-    }
-
     @Test
-    void TestGetReportBorderline() throws Exception {
+    void testGetReportWithPatientWithoutNotes() throws Exception {
         mockMvc.perform(get("/api/report/id")
-                        .queryParam("patientId", "2"))
+                        .queryParam("patientId", "5"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("BORDERLINE")));
+                .andExpect(jsonPath("$.riskLevel", is("NONE")));;
     }
-
-    @Test
-    void TestGetReportInDanger() throws Exception {
-        mockMvc.perform(get("/api/report/id")
-                        .queryParam("patientId", "3"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("IN_DANGER")));
-    }
-
-    @Test
-    void TestGetReportEarlyOnset() throws Exception {
-        mockMvc.perform(get("/api/report/id")
-                        .queryParam("patientId", "4"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("EARLY_ONSET")));
-    }*/
 
     @Test
     void testGetReportWithBadPatientId() throws Exception {
@@ -75,9 +52,18 @@ class ReportControllerIT {
     void testGetCurlReportById() throws Exception {
         mockMvc.perform(post("/api/assess/id")
                         .queryParam("patId", "1")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", containsString ("NONE")));
+                .andExpect(jsonPath("$", containsString("NONE")));
+    }
+
+    @Test
+    void testGetCurlReportByIdWithPatientWithoutNote() throws Exception {
+        mockMvc.perform(post("/api/assess/id")
+                        .queryParam("patId", "5")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", containsString("NONE")));
     }
 
     @Test
@@ -95,7 +81,17 @@ class ReportControllerIT {
                         .queryParam("familyName", "testnone")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", containsString ("NONE")));
+                .andExpect(jsonPath("$", containsString("NONE")));
+    }
+
+    @Test
+    void testGetCurlReportByFamilyNameWithPatientWithoutNote() throws Exception {
+        mockMvc.perform(post("/api/assess/familyName")
+                        .queryParam("given", "test")
+                        .queryParam("familyName", "testwithoutnote")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$", containsString("NONE")));
     }
 
     @Test

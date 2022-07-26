@@ -31,7 +31,6 @@ class ReportServiceIT {
     @Autowired
     private ICalculator calculator;
 
-
     @ParameterizedTest
     @CsvSource({"1,NONE", "2,BORDERLINE", "3,IN_DANGER", "4,EARLY_ONSET"})
     void generateReport(String input, String expected) throws Exception {
@@ -41,38 +40,6 @@ class ReportServiceIT {
         assertEquals(expected, report.getRiskLevel());
 
     }
-
-/*    @Test
-    void generateReportNone() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReport(1);
-        assertEquals("NONE", report.getRiskLevel());
-    }
-
-    @Test
-    void generateReportBorderline() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReport(2);
-        assertEquals("BORDERLINE", report.getRiskLevel());
-    }
-
-    @Test
-    void generateReportInDanger() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReport(3);
-        assertEquals("IN_DANGER", report.getRiskLevel());
-    }
-
-    @Test
-    void generateReportEarlyOnset() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReport(4);
-        assertEquals("EARLY_ONSET", report.getRiskLevel());
-    }*/
 
     @Test
     void generateReportWithBadPatientId() throws Exception {
@@ -91,37 +58,7 @@ class ReportServiceIT {
         assertEquals(expected, report.getRiskLevel());
 
     }
-    /*@Test
-    void generateReportByFamilyNameAndGivenNone() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReportByFamilyNameAndGiven("test", "testnone");
-        assertEquals("NONE", report.getRiskLevel());
-    }
 
-    @Test
-    void generateReportByFamilyNameAndGivenBorderline() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReportByFamilyNameAndGiven("test", "testborderline");
-        assertEquals("BORDERLINE", report.getRiskLevel());
-    }
-
-    @Test
-    void generateReportByFamilyNameAndGivenInDanger() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReportByFamilyNameAndGiven("test", "testindanger");
-        assertEquals("IN_DANGER", report.getRiskLevel());
-    }
-
-    @Test
-    void generateReportByFamilyNameAndGivenEarlyOnset() throws Exception {
-        IReportService reportService = new ReportService(historyServiceProxy,
-                patientServiceProxy, calculator);
-        Report report = reportService.generateReportByFamilyNameAndGiven("test", "testearlyonset");
-        assertEquals("EARLY_ONSET", report.getRiskLevel());
-    }*/
     @Test
     void generateReportByFamilyNameAndGivenWithBadPatientGivenAndFamilyName() throws Exception {
         IReportService reportService = new ReportService(historyServiceProxy,

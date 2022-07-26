@@ -31,13 +31,10 @@ import java.util.Optional;
 class PatientControllerTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private IPatientService patientService;
-
     @MockBean
     private IConversion conversion;
 
@@ -55,11 +52,10 @@ class PatientControllerTest {
     @Test
     void testGetPatientById() throws Exception {
         Patient patient = new Patient(1, "test", "test", LocalDate.now().minusYears(20), 'M',
-              "12 rue du test", "555-555-555");
-       when(patientService.getPatientById(1)).thenReturn(Optional.of(patient));
+                "12 rue du test", "555-555-555");
+        when(patientService.getPatientById(1)).thenReturn(Optional.of(patient));
         mockMvc.perform(get("/api/patient/id").queryParam("patientId", "1"))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -67,37 +63,34 @@ class PatientControllerTest {
         when(patientService.getPatientById(1)).thenReturn(Optional.empty());
         mockMvc.perform(get("/api/patient/id").queryParam("patientId", "1"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
     void testGetPatientByFirstNameAndLastName() throws Exception {
         Patient patient = new Patient(1, "test", "test", LocalDate.now().minusYears(20), 'M',
                 "12 rue du test", "555-555-555");
-        when(patientService.getPatientByFirstNameAndLastName("test","test")).thenReturn(Optional.of(patient));
+        when(patientService.getPatientByFirstNameAndLastName("test", "test")).thenReturn(Optional.of(patient));
         mockMvc.perform(get("/api/patient").queryParam("firstName", "test").queryParam("lastName", "test"))
                 .andExpect(status().isOk());
-
     }
 
     @Test
     void testGetPatientByBadFirstNameAndBadLastName() throws Exception {
-        when(patientService.getPatientByFirstNameAndLastName("test1","test1")).thenReturn(Optional.empty());
+        when(patientService.getPatientByFirstNameAndLastName("test1", "test1")).thenReturn(Optional.empty());
         mockMvc.perform(get("/api/patient").queryParam("firstName", "test1").queryParam("lastName", "test1"))
                 .andExpect(status().isNotFound());
-
     }
 
-  @Test
+    @Test
     void testUpdatePatient() throws Exception {
-       PatientFullDto patientUpdateDto = new PatientFullDto(28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
-               "13 rue du test", "666-666-666");
-      Patient patientUpdated = new Patient(28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
-              "13 rue du test", "666-666-666");
-       Patient patientToUpdate = OBJECT_MAPPER.convertValue(patientUpdateDto, Patient.class);
-       String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
-       when(patientService.updatePatient(any(Patient.class))).thenReturn(patientUpdated);
-       mockMvc.perform(put("/api/patient/update")
+        PatientFullDto patientUpdateDto = new PatientFullDto(28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
+                "13 rue du test", "666-666-666");
+        Patient patientUpdated = new Patient(28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
+                "13 rue du test", "666-666-666");
+        Patient patientToUpdate = OBJECT_MAPPER.convertValue(patientUpdateDto, Patient.class);
+        String patientAsString = OBJECT_MAPPER.writeValueAsString(patientUpdateDto);
+        when(patientService.updatePatient(any(Patient.class))).thenReturn(patientUpdated);
+        mockMvc.perform(put("/api/patient/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isOk());
@@ -115,8 +108,6 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
-
-
     }
 
     @Test
@@ -147,10 +138,10 @@ class PatientControllerTest {
         patientCreateDto.setGender('M');
         patientCreateDto.setAddress("13 rue du test");
         patientCreateDto.setPhoneNumber("666-666-666");
-        Patient patient = new  Patient (28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
+        Patient patient = new Patient(28, "test2", "test2", LocalDate.now().minusYears(20), 'M',
                 "13 rue du test", "666-666-666");
         String patientAsString = OBJECT_MAPPER.writeValueAsString(patientCreateDto);
-        when(patientService.getPatientByFirstNameAndLastName("test2","test2")).thenReturn(Optional.of(patient));
+        when(patientService.getPatientByFirstNameAndLastName("test2", "test2")).thenReturn(Optional.of(patient));
         mockMvc.perform(post("/api/patient/add/json")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
@@ -170,14 +161,14 @@ class PatientControllerTest {
                         .queryParam("address", "13 rue du test")
                         .queryParam("phone", "666-666-666")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
     }
 
     @Test
     void testCreatePatientWhichAlreadyExist() throws Exception {
         Patient patient = new Patient(28, "test2", "test2", LocalDate.parse("1945-03-01"), 'M',
                 "13 rue du test", "666-666-666");
-        when(patientService.getPatientByFirstNameAndLastName("test2","test2")).thenReturn(Optional.of(patient));
+        when(patientService.getPatientByFirstNameAndLastName("test2", "test2")).thenReturn(Optional.of(patient));
         mockMvc.perform(post("/api/patient/add")
                         .queryParam("family", "test2")
                         .queryParam("given", "test2")
@@ -188,9 +179,4 @@ class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isBadRequest());
     }
-
-
-
-
-
 }

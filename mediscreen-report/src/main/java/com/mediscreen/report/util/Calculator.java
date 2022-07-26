@@ -40,13 +40,13 @@ public class Calculator implements ICalculator {
     public int calculateStringOccurrence(List<PractitionerNote> notes) {
         int count = 0;
         StringBuilder notesToString = new StringBuilder();
-       for (PractitionerNote n : notes) {
-           notesToString.append(n.getNote());
-       }
-            for (TriggerTerms t : TriggerTerms.values())
-                if (notesToString.toString().toLowerCase().contains(t.toString())) {
-                    count++;
-                }
+        for (PractitionerNote n : notes) {
+            notesToString.append(n.getNote());
+        }
+        for (TriggerTerms t : TriggerTerms.values())
+            if (notesToString.toString().toLowerCase().contains(t.toString())) {
+                count++;
+            }
         return count;
     }
 }

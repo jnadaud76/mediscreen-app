@@ -8,24 +8,18 @@ import javax.validation.constraints.NotNull;
 public class PatientFromStringDto {
 
     private int id;
-
     @Length(max = 100)
     @NotEmpty(message = "Firstname is mandatory")
     private String family;
-
     @Length(max = 100)
     @NotEmpty(message = "Lastname is mandatory")
     private String given;
-
     @NotNull(message = "Date of birth is mandatory")
     private String dob;
-
     @NotNull(message = "Gender is mandatory")
     private String sex;
-
     @Length(max = 300)
     private String address;
-
     @Length(max = 20)
     private String phone;
 

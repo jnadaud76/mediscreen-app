@@ -1,4 +1,5 @@
-<div class="registration-container col-6 border border-dark rounded py-5 m-auto" *ngIf="patient$ | async as patientModel">
+<div class="registration-container col-6 border border-dark rounded py-5 m-auto"
+     *ngIf="patient$ | async as patientModel">
   <form [formGroup]="patientUpdateForm">
     <div class="text-center">
       <h1>Patient Update form</h1>
@@ -6,7 +7,8 @@
     <div class="form-group col-11 mx-5 my-4">
       <div class="form-group  col-11 mx-5 my-4">
         <label for="firstName">First Name</label><br>
-        <input class="col-11" id="firstName" type="text" formControlName="firstName" [(ngModel)]="patientModel.firstName">
+        <input class="col-11" id="firstName" type="text" formControlName="firstName"
+               [(ngModel)]="patientModel.firstName">
         <div class="alert-danger col-11"
              *ngIf="(patientUpdateForm.controls['firstName'].hasError('required') ||
               patientUpdateForm.controls['firstName'].hasError('whitespace'))
@@ -34,7 +36,8 @@
       </div>
       <div class="form-group col-11 mx-5 my-4">
         <label for="dateOfBirth">Date of birth</label><br>
-        <input class="col-11" id="dateOfBirth" type="date" formControlName="dateOfBirth" [(ngModel)]="patientModel.dateOfBirth">
+        <input class="col-11" id="dateOfBirth" type="date" formControlName="dateOfBirth"
+               [(ngModel)]="patientModel.dateOfBirth">
         <div class="alert-danger col-11"
              *ngIf="patientUpdateForm.controls['dateOfBirth'].hasError('required') && patientUpdateForm.controls['dateOfBirth'].touched">
           Date of birth is required
@@ -61,7 +64,8 @@
       </div>
       <div class="form-group  col-11 mx-5 my-4">
         <label for="phoneNumber">Phone Number</label><br>
-        <input class="col-11" id="phoneNumber" type="text" formControlName="phoneNumber" [(ngModel)]="patientModel.phoneNumber">
+        <input class="col-11" id="phoneNumber" type="text" formControlName="phoneNumber"
+               [(ngModel)]="patientModel.phoneNumber">
         <div class="alert-danger col-11"
              *ngIf="patientUpdateForm.controls['phoneNumber'].hasError('maxlength') && patientUpdateForm.controls['phoneNumber'].touched">
           20 characters max.

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PractitionerNoteRepository extends MongoRepository <PractitionerNote, String> {
+public interface PractitionerNoteRepository extends MongoRepository<PractitionerNote, String> {
 
     List<PractitionerNote> findPractitionerNotesByPatientIdOrderByCreationDateDesc(Integer patientId);
 }

@@ -5,11 +5,8 @@ import java.time.LocalDateTime;
 public class PractitionerNote {
 
     private String id;
-
     private int patientId;
-
     private String note;
-
     private LocalDateTime creationDate;
 
     public LocalDateTime getCreationDate() {

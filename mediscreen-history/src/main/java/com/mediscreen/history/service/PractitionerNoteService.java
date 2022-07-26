@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class PractitionerNoteService implements IPractitionerNoteService {
 
-   private final PractitionerNoteRepository practitionerNoteRepository;
+    private final PractitionerNoteRepository practitionerNoteRepository;
 
     public PractitionerNoteService(PractitionerNoteRepository practitionerNoteRepository) {
         this.practitionerNoteRepository = practitionerNoteRepository;
@@ -36,9 +36,9 @@ public class PractitionerNoteService implements IPractitionerNoteService {
         }
     }
 
-     public PractitionerNote savePractitionerNote(PractitionerNote note)  {
-            note.setCreationDate(LocalDateTime.now());
-            return practitionerNoteRepository.save(note);
-        }
+    public PractitionerNote savePractitionerNote(PractitionerNote note) {
+        note.setCreationDate(LocalDateTime.now());
+        return practitionerNoteRepository.save(note);
     }
+}
 

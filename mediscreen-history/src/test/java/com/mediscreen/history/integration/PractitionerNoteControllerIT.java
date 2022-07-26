@@ -34,13 +34,10 @@ import java.time.LocalDateTime;
 class PractitionerNoteControllerIT {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private IPractitionerNoteService practitionerNoteService;
-
     @Autowired
     private PractitionerNoteRepository practitionerNoteRepository;
 
@@ -97,8 +94,8 @@ class PractitionerNoteControllerIT {
                 .andExpect(status().isNotFound());
     }
 
-        @Test
-        void testUpdatePractitionerNote() throws Exception {
+    @Test
+    void testUpdatePractitionerNote() throws Exception {
         PractitionerNoteFullDto noteFullDto = new PractitionerNoteFullDto();
         noteFullDto.setId("2222");
         noteFullDto.setPatientId(1);
@@ -108,7 +105,7 @@ class PractitionerNoteControllerIT {
         mockMvc.perform(put("/api/patHistory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(noteFullDtoAsString))
-                        .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
 
     @Test

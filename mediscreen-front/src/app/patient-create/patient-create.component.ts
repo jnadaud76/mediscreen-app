@@ -22,9 +22,10 @@ export class PatientCreateComponent implements OnInit {
   showCreate!: boolean;
   patientCreate!: PatientModel;
   errorMessage!: string;
-  currentDate=new Date();
+  currentDate = new Date();
 
-  constructor(private datePipe: DatePipe, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private datePipe: DatePipe, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
+  }
 
   ngOnInit(): void {
 
@@ -37,13 +38,12 @@ export class PatientCreateComponent implements OnInit {
       phoneNumber: ['', {validators: [Validators.maxLength(20)]}],
     }, {
       updateOn: 'change',
-
     });
-   }
+  }
 
   onSubmitForm() {
     this.patientCreate = {
-      id:0,
+      id: 0,
       firstName: this.patientCreateForm.value.firstName,
       lastName: this.patientCreateForm.value.lastName,
       dateOfBirth: this.patientCreateForm.value.dateOfBirth,
@@ -59,7 +59,7 @@ export class PatientCreateComponent implements OnInit {
       .pipe(map(() => this.router.navigateByUrl('dashboard'))).subscribe();
   }
 
-   onCancelForm() {
+  onCancelForm() {
     this.router.navigateByUrl('dashboard')
   }
 

@@ -27,7 +27,7 @@ export class PatientComponent implements OnInit {
   errorMessageNote!: string
 
   constructor(private patientService: PatientService, private practitionerNoteService: PractitionerNoteService
-    , private reportService: ReportService ,private route: ActivatedRoute, private router: Router) {
+    , private reportService: ReportService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {

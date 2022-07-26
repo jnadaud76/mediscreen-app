@@ -6,30 +6,24 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 
 public class PatientFullDto {
 
     private int id;
-
     @Length(max = 100)
     @NotEmpty(message = "Firstname is mandatory")
     private String firstName;
-
     @Length(max = 100)
     @NotEmpty(message = "Lastname is mandatory")
     private String lastName;
-
-    @Past
+    @PastOrPresent
     @NotNull(message = "Date of birth is mandatory")
     private LocalDate dateOfBirth;
-
     @NotNull(message = "Gender is mandatory")
     private Character gender;
-
     @Length(max = 300)
     private String address;
-
     @Length(max = 20)
     private String phoneNumber;
 

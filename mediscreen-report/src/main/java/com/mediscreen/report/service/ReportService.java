@@ -18,11 +18,8 @@ import java.util.List;
 public class ReportService implements IReportService {
 
     private final HistoryServiceProxy historyServiceProxy;
-
     private final PatientServiceProxy patientServiceProxy;
-
     private final ICalculator calculator;
-
 
     public ReportService(HistoryServiceProxy historyServiceProxy, PatientServiceProxy patientServiceProxy, ICalculator calculator) {
         this.historyServiceProxy = historyServiceProxy;

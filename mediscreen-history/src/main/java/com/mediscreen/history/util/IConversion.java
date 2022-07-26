@@ -5,6 +5,6 @@ import com.mediscreen.history.model.PractitionerNote;
 
 public interface IConversion {
 
-    PractitionerNote practitionerNoteFromStringDtoToPractitionerNote (PractitionerNoteFromStringDto practitionerNoteFromStringDto);
+    PractitionerNote practitionerNoteFromStringDtoToPractitionerNote(PractitionerNoteFromStringDto practitionerNoteFromStringDto);
 
 }

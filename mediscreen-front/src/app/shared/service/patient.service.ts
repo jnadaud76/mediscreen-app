@@ -8,13 +8,13 @@ import {Observable} from "rxjs";
 })
 export class PatientService {
 
-  private _PATIENT_API_URL:string = "http://localhost:8081/api"
+  private _PATIENT_API_URL: string = "http://localhost:8081/api"
 
   get PATIENT_API_URL(): string {
     return this._PATIENT_API_URL;
   }
 
-   constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   getAllPatient(): Observable<PatientModel[]> {
@@ -26,15 +26,15 @@ export class PatientService {
   }
 
   getPatient(firstName: string, lastName: string): Observable<PatientModel> {
-    return this.http.get<PatientModel>(this.PATIENT_API_URL +`/patient?firstName=${firstName}&lastName=${lastName}`);
+    return this.http.get<PatientModel>(this.PATIENT_API_URL + `/patient?firstName=${firstName}&lastName=${lastName}`);
   }
 
   updatePatient(patientModel: PatientModel) {
-    return this.http.put(this.PATIENT_API_URL +`/patient/update`, patientModel);
+    return this.http.put(this.PATIENT_API_URL + `/patient/update`, patientModel);
   }
 
   createPatient(patientModel: PatientModel) {
-    return this.http.post(this.PATIENT_API_URL +`/patient/add/json`, patientModel);
+    return this.http.post(this.PATIENT_API_URL + `/patient/add/json`, patientModel);
   }
 
 }

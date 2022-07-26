@@ -1,6 +1,6 @@
 import {FormControl} from "@angular/forms";
 
-export function dateValidation(control : FormControl): { [p: string]: boolean } | null {
+export function dateValidation(control: FormControl): { [p: string]: boolean } | null {
   let curDate = new Date();
   curDate = new Date(Date.UTC(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate()));
 
@@ -8,7 +8,7 @@ export function dateValidation(control : FormControl): { [p: string]: boolean } 
 
   inputDate = new Date(Date.UTC(inputDate.getUTCFullYear(), inputDate.getUTCMonth(), inputDate.getUTCDate()));
 
-  if(curDate < inputDate) {
+  if (curDate < inputDate) {
     return {invalidDate: true};
   }
   return null;

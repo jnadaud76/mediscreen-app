@@ -25,7 +25,6 @@ import io.swagger.annotations.ApiOperation;
 public class ReportController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
-
     private final IReportService reportService;
 
     public ReportController(IReportService reportService) {
@@ -37,7 +36,7 @@ public class ReportController {
     @GetMapping("/report/id")
     public ResponseEntity<Report> getReportByPatientId(@RequestParam Integer patientId) {
         Report report = reportService.generateReport(patientId);
-        if (report!=null) {
+        if (report != null) {
             LOGGER.info("Report successfully found - code : {}", HttpStatus.OK);
             return ResponseEntity.status(HttpStatus.OK).body(report);
         } else {
@@ -50,7 +49,7 @@ public class ReportController {
     @PostMapping(value = "/assess/id", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCurlReportById(Integer patId) {
         Report report = reportService.generateReport(patId);
-        if (report!=null) {
+        if (report != null) {
             String reportAsString = "Patient : " + report.getPatient().getFirstName() + " " + report.getPatient().getLastName() +
                     " (age " + report.getAge() + ") diabetes assessment is: " +
                     report.getRiskLevel();
@@ -64,10 +63,10 @@ public class ReportController {
     }
 
     @ApiOperation(value = "Send one report by patient's given and familyName from URLENCODED_VALUE.")
-    @PostMapping (value = "/assess/familyName", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/assess/familyName", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCurlReportByFamilyName(String given, String familyName) {
         Report report = reportService.generateReportByFamilyNameAndGiven(given, familyName);
-        if (report!=null) {
+        if (report != null) {
             String reportAsString = "Patient : " + report.getPatient().getFirstName() + " " + report.getPatient().getLastName() +
                     " (age " + report.getAge() + ") diabetes assessment is: " +
                     report.getRiskLevel();

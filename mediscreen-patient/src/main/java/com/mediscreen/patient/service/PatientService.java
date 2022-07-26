@@ -36,8 +36,8 @@ public class PatientService implements IPatientService {
         return patientRepository.save(patient);
     }
 
-    public Patient updatePatient (Patient patientUpdate) {
-        if(patientRepository.existsById(patientUpdate.getId())) {
+    public Patient updatePatient(Patient patientUpdate) {
+        if (patientRepository.existsById(patientUpdate.getId())) {
             Patient patient = getPatientById(patientUpdate.getId()).get();
             patient.setFirstName(patientUpdate.getFirstName());
             patient.setLastName(patientUpdate.getLastName());

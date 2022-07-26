@@ -28,7 +28,6 @@ class ReportControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     IReportService reportService;
 
@@ -40,7 +39,7 @@ class ReportControllerTest {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("NONE")));
+                .andExpect(jsonPath("$.riskLevel", is("NONE")));
     }
 
     @Test
@@ -51,7 +50,7 @@ class ReportControllerTest {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("BORDERLINE")));
+                .andExpect(jsonPath("$.riskLevel", is("BORDERLINE")));
     }
 
     @Test
@@ -62,7 +61,7 @@ class ReportControllerTest {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "3"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("IN_DANGER")));
+                .andExpect(jsonPath("$.riskLevel", is("IN_DANGER")));
     }
 
     @Test
@@ -73,7 +72,7 @@ class ReportControllerTest {
         mockMvc.perform(get("/api/report/id")
                         .queryParam("patientId", "4"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.riskLevel", is ("EARLY_ONSET")));
+                .andExpect(jsonPath("$.riskLevel", is("EARLY_ONSET")));
     }
 
     @Test
@@ -97,7 +96,7 @@ class ReportControllerTest {
                         .queryParam("patId", "1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", containsString ("NONE")));
+                .andExpect(jsonPath("$", containsString("NONE")));
     }
 
     @Test
@@ -123,7 +122,7 @@ class ReportControllerTest {
                         .queryParam("familyName", "testnone")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", containsString ("NONE")));
+                .andExpect(jsonPath("$", containsString("NONE")));
     }
 
     @Test

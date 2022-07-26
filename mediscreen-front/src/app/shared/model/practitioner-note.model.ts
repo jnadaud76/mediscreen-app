@@ -1,6 +1,6 @@
 export class PractitionerNoteModel {
- id?: string;
- patientId!:number;
- note!: string;
- creationDate?: Date;
+  id?: string;
+  patientId!: number;
+  note!: string;
+  creationDate?: Date;
 }

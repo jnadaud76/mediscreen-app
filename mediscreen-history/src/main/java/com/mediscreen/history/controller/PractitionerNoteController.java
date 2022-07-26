@@ -46,12 +46,12 @@ public class PractitionerNoteController {
     public PractitionerNoteController(IPractitionerNoteService practitionerNoteService,
                                       IConversion conversion) {
         this.practitionerNoteService = practitionerNoteService;
-        this.conversion=conversion;
+        this.conversion = conversion;
     }
 
     @ApiOperation(value = "Retrieve all practitioner's notes for all patient.")
     @GetMapping("/patHistory")
-    public ResponseEntity<List<PractitionerNote>> getAllPractitionerNotes(){
+    public ResponseEntity<List<PractitionerNote>> getAllPractitionerNotes() {
         List<PractitionerNote> notes = practitionerNoteService.getAllPractitionerNote();
         if (!notes.isEmpty()) {
             LOGGER.info("Practitioner's notes successfully found - code : {}", HttpStatus.OK);
@@ -65,7 +65,7 @@ public class PractitionerNoteController {
 
     @ApiOperation(value = "Retrieve all practitioner's notes for one patient by id.")
     @GetMapping("/patHistory/id")
-    public ResponseEntity<List<PractitionerNote>> getAllPractitionerNoteByPatientId(@RequestParam Integer patientId){
+    public ResponseEntity<List<PractitionerNote>> getAllPractitionerNoteByPatientId(@RequestParam Integer patientId) {
         List<PractitionerNote> notes = practitionerNoteService.getAllPractitionerNoteByPatientId(patientId);
         if (!notes.isEmpty()) {
             LOGGER.info("Practitioner's notes successfully found - code : {}", HttpStatus.OK);
@@ -78,10 +78,10 @@ public class PractitionerNoteController {
     }
 
     @ApiOperation(value = "Update one practitioner's note.")
-    @PutMapping(value="/patHistory/update")
-    public ResponseEntity<PractitionerNoteFullDto> updatePractitionerNote (@Valid @RequestBody PractitionerNoteFullDto noteUpdateDto) {
+    @PutMapping(value = "/patHistory/update")
+    public ResponseEntity<PractitionerNoteFullDto> updatePractitionerNote(@Valid @RequestBody PractitionerNoteFullDto noteUpdateDto) {
         PractitionerNote note = practitionerNoteService.updatePractitionerNote(OBJECT_MAPPER.convertValue(noteUpdateDto, PractitionerNote.class));
-        if(note!=null) {
+        if (note != null) {
             LOGGER.info("Note successfully update - code : {}", HttpStatus.OK);
             return ResponseEntity.status(HttpStatus.OK).body(OBJECT_MAPPER.convertValue(note, PractitionerNoteFullDto.class));
         } else {
@@ -91,9 +91,9 @@ public class PractitionerNoteController {
     }
 
     @ApiOperation(value = "Create one practitioner's note from URLENCODED_VALUE.")
-    @PostMapping(value="/patHistory/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+    @PostMapping(value = "/patHistory/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PractitionerNoteFullDto> createPatient (@Valid PractitionerNoteFromStringDto practitionerNoteFromStringDto) {
+    public ResponseEntity<PractitionerNoteFullDto> createPatient(@Valid PractitionerNoteFromStringDto practitionerNoteFromStringDto) {
         PractitionerNote note = practitionerNoteService
                 .savePractitionerNote(conversion
                         .practitionerNoteFromStringDtoToPractitionerNote(practitionerNoteFromStringDto));
@@ -102,10 +102,10 @@ public class PractitionerNoteController {
     }
 
     @ApiOperation(value = "Create one practitioner's note from JSON.")
-    @PostMapping(value="/patHistory/add/json")
-    public ResponseEntity<PractitionerNoteFullDto> createPatientFromJson (@Valid @RequestBody PractitionerNoteFullDto practitionerNoteFullDto) {
-            PractitionerNote note = practitionerNoteService.savePractitionerNote(OBJECT_MAPPER.convertValue(practitionerNoteFullDto, PractitionerNote.class));
-            LOGGER.info("Note successfully create - code : {}", HttpStatus.CREATED);
-            return ResponseEntity.status(HttpStatus.CREATED).body(OBJECT_MAPPER.convertValue(note, PractitionerNoteFullDto.class));
+    @PostMapping(value = "/patHistory/add/json")
+    public ResponseEntity<PractitionerNoteFullDto> createPatientFromJson(@Valid @RequestBody PractitionerNoteFullDto practitionerNoteFullDto) {
+        PractitionerNote note = practitionerNoteService.savePractitionerNote(OBJECT_MAPPER.convertValue(practitionerNoteFullDto, PractitionerNote.class));
+        LOGGER.info("Note successfully create - code : {}", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(OBJECT_MAPPER.convertValue(note, PractitionerNoteFullDto.class));
     }
 }

@@ -15,5 +15,5 @@ public interface IPatientService {
 
     Patient savePatient(Patient patient);
 
-    Patient updatePatient (Patient patientUpdate);
+    Patient updatePatient(Patient patientUpdate);
 }

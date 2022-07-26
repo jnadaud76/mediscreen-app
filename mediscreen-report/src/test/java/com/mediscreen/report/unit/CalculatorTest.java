@@ -15,7 +15,7 @@ import java.util.List;
 
 class CalculatorTest {
 
-    private ICalculator calculator = new Calculator();
+    private final ICalculator calculator = new Calculator();
 
     @Test
     void calculateStringOccurrenceTest() throws Exception {
@@ -28,8 +28,6 @@ class CalculatorTest {
         notes.add(note2);
         int count = calculator.calculateStringOccurrence(notes);
         assertEquals(2, count);
-
-
     }
 
     @Test
@@ -43,8 +41,6 @@ class CalculatorTest {
         notes.add(note2);
         int count = calculator.calculateStringOccurrence(notes);
         assertEquals(1, count);
-
-
     }
 
     @Test
@@ -71,7 +67,6 @@ class CalculatorTest {
         notes.add(note2);
         int count = calculator.calculateStringOccurrence(notes);
         assertEquals(2, count);
-
     }
 
     @Test

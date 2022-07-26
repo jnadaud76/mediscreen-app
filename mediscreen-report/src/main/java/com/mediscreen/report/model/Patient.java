@@ -5,22 +5,11 @@ import java.time.LocalDate;
 public class Patient {
 
     private int id;
-
-
     private String firstName;
-
-
     private String lastName;
-
-
     private LocalDate dateOfBirth;
-
-
     private Character gender;
-
-
     private String address;
-
     private String phoneNumber;
 
     public Patient() {

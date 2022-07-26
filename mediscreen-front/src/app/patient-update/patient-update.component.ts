@@ -26,7 +26,6 @@ export class PatientUpdateComponent implements OnInit {
     this.patientId =
       +this.route.snapshot.params['id'];
     this.patient$ = this.patientService.getPatientById(this.patientId)
-
     this.patientUpdateForm = this.formBuilder.group({
       lastName: ['', {validators: [Validators.required, Validators.maxLength(100), noWhitespaceValidator]}],
       firstName: ['', {validators: [Validators.required, Validators.maxLength(100), noWhitespaceValidator]}],

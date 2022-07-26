@@ -31,15 +31,11 @@ import java.util.List;
 @ActiveProfiles("test")
 @WebMvcTest(controllers = PractitionerNoteController.class)
 class PractitionerNoteControllerTest {
-
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private IPractitionerNoteService practitionerNoteService;
-
     @MockBean
     private IConversion conversion;
 
@@ -131,7 +127,7 @@ class PractitionerNoteControllerTest {
         noteFullDtoReturn.setNote("test2");
         noteFullDtoReturn.setCreationDate(LocalDateTime.now());
         PractitionerNote note = OBJECT_MAPPER.convertValue(noteFullDto, PractitionerNote.class);
-        PractitionerNote noteReturn =  OBJECT_MAPPER.convertValue(noteFullDtoReturn, PractitionerNote.class);
+        PractitionerNote noteReturn = OBJECT_MAPPER.convertValue(noteFullDtoReturn, PractitionerNote.class);
         String noteFullDtoAsString = OBJECT_MAPPER.writeValueAsString(noteFullDto);
         when(practitionerNoteService.savePractitionerNote(note))
                 .thenReturn(noteReturn);

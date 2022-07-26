@@ -16,9 +16,10 @@ export class PractitionernoteCreateComponent implements OnInit {
   @Input()
   showNoteCreate!: boolean;
   noteCreate!: PractitionerNoteModel;
-  patientId!:number
+  patientId!: number
 
-  constructor(private practitionerNoteService: PractitionerNoteService, private formBuilder: FormBuilder, private router: Router, private route : ActivatedRoute) { }
+  constructor(private practitionerNoteService: PractitionerNoteService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.noteCreateForm = this.formBuilder.group({
@@ -26,23 +27,22 @@ export class PractitionernoteCreateComponent implements OnInit {
     }, {
       updateOn: 'change'
     });
-    this.patientId=
+    this.patientId =
       +this.route.snapshot.params['id'];
   }
 
-
-  onSubmitForm(){
+  onSubmitForm() {
     this.noteCreate = {
       patientId: this.patientId,
       note: this.noteCreateForm.value.note
-     }
+    }
     this.practitionerNoteService.createPractitionerNote(this.noteCreate).subscribe()
-    this.showNoteCreate=false;
+    this.showNoteCreate = false;
     window.location.reload()
   }
 
   onCancelForm() {
-    this.showNoteCreate=false;
+    this.showNoteCreate = false;
     window.location.reload()
   }
 }

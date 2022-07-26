@@ -9,8 +9,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class HistoryApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HistoryApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HistoryApplication.class, args);
+    }
 
 }

@@ -18,9 +18,10 @@ export class PractitionernoteUpdateComponent implements OnInit {
   @Input()
   noteToUpdate!: PractitionerNoteModel;
   noteUpdate!: PractitionerNoteModel;
-  patientId!:number
+  patientId!: number
 
-  constructor(private practitionerNoteService: PractitionerNoteService, private formBuilder: FormBuilder, private router: Router, private route : ActivatedRoute) { }
+  constructor(private practitionerNoteService: PractitionerNoteService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.noteUpdateForm = this.formBuilder.group({
@@ -28,12 +29,11 @@ export class PractitionernoteUpdateComponent implements OnInit {
     }, {
       updateOn: 'change'
     });
-    this.patientId=
+    this.patientId =
       +this.route.snapshot.params['id'];
   }
 
-
-  onSubmitForm(){
+  onSubmitForm() {
     this.noteUpdate = {
       id: this.noteToUpdate.id,
       patientId: this.patientId,
@@ -41,12 +41,12 @@ export class PractitionernoteUpdateComponent implements OnInit {
       creationDate: this.noteToUpdate.creationDate
     }
     this.practitionerNoteService.updatePractitionerNote(this.noteUpdate).subscribe()
-    this.showNoteUpdate=false;
+    this.showNoteUpdate = false;
     window.location.reload()
   }
 
   onCancelForm() {
-    this.showNoteUpdate=false;
+    this.showNoteUpdate = false;
     window.location.reload()
   }
 }

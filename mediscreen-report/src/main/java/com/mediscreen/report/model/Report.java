@@ -2,13 +2,11 @@ package com.mediscreen.report.model;
 
 public class Report {
 
-   private Patient patient;
+    private Patient patient;
+    private int age;
+    private String riskLevel;
 
-   private int age;
-
-   private String riskLevel;
-
-   public Patient getPatient() {
+    public Patient getPatient() {
         return patient;
     }
 

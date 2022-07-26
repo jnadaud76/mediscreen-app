@@ -26,19 +26,16 @@ class ReportServiceTest {
 
     @Autowired
     private IReportService reportService;
-
     @MockBean
     private HistoryServiceProxy historyServiceProxy;
-
     @MockBean
     private PatientServiceProxy patientServiceProxy;
-
     @MockBean
     private ICalculator calculator;
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
-    void generateReportNoneAgeUpper30(int ints) throws Exception {
+    void generateReportNoneAgeUpper30Men(int ints) throws Exception {
         Patient patient = new Patient(1, "test", "test", LocalDate.now().minusYears(40), 'M',
                 "12 rue du test", "555-555-555");
         PractitionerNote note = new PractitionerNote();

@@ -31,50 +31,43 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 @ActiveProfiles("test")
-//@Sql(scripts = {"classpath:sql/schema-h2.sql", "classpath:sql/data-h2.sql"})
 @SpringBootTest
 @AutoConfigureMockMvc
 class PatientControllerIT {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private IPatientService patientService;
-
     @Autowired
     private IConversion conversion;
 
     @Test
     void TestGetAllPatient() throws Exception {
-       mockMvc.perform(get("/api/patients"))
+        mockMvc.perform(get("/api/patients"))
                 .andExpect(status().isOk());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4})
     void testGetPatientById(int ints) throws Exception {
-          mockMvc.perform(get("/api/patient/id").queryParam("patientId", String.valueOf(ints)))
+        mockMvc.perform(get("/api/patient/id").queryParam("patientId", String.valueOf(ints)))
                 .andExpect(status().isOk());
-
     }
 
     @Test
     void testGetPatientByIdWithBadId() throws Exception {
-         mockMvc.perform(get("/api/patient/id").queryParam("patientId", "150"))
+        mockMvc.perform(get("/api/patient/id").queryParam("patientId", "150"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
     void testGetPatientByFirstNameAndLastName() throws Exception {
-       mockMvc.perform(get("/api/patient").queryParam("firstName", "Test").queryParam("lastName", "TestNone"))
+        mockMvc.perform(get("/api/patient").queryParam("firstName", "Test").queryParam("lastName", "TestNone"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("@.firstName", is("Test")))
-               .andExpect(jsonPath("@.lastName", is("TestNone")));
-
+                .andExpect(jsonPath("@.lastName", is("TestNone")));
     }
 
     @Test
@@ -93,8 +86,6 @@ class PatientControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isOk());
-
-
     }
 
     @Test
@@ -106,8 +97,6 @@ class PatientControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientAsString))
                 .andExpect(status().isBadRequest());
-
-
     }
 
     @Test

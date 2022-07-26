@@ -7,12 +7,9 @@ import javax.validation.constraints.NotBlank;
 public class PractitionerNoteFromStringDto {
 
     private String id;
-
     private String patId;
-
     @NotBlank(message = "note is mandatory")
     private String e;
-
     private LocalDateTime creationDate;
 
     public String getId() {

@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "patient")
@@ -33,7 +33,7 @@ public class Patient {
     @Column(name = "LASTNAME", nullable = false, length = 100)
     private String lastName;
 
-    @Past
+    @PastOrPresent
     @NotNull(message = "Date of birth is mandatory")
     @Column(name = "DATE_OF_BIRTH")
     private LocalDate dateOfBirth;

@@ -8,7 +8,7 @@ import {ReportModel} from "../model/report.model";
 })
 export class ReportService {
 
-  private _REPORT_API_URL:string = "http://localhost:8080/api"
+  private _REPORT_API_URL: string = "http://localhost:8080/api"
 
   get REPORT_API_URL(): string {
     return this._REPORT_API_URL;
