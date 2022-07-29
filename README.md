@@ -70,3 +70,10 @@ Import last version of the code into an IDE, open a Terminal and execute the bel
 ### Generate maven site
 
 `.\mvn_site.bat`
+
+### Test report
+![](rapport_jacoco_patient.JPG)
+
+![](rapport_jacoco_history.JPG)
+
+![](rapport_jacoco_report.JPG)

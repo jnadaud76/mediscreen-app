@@ -27,13 +27,22 @@ public class ReportService implements IReportService {
         this.calculator = calculator;
     }
 
+    /**
+     * Generates a report based on the patient's age, sex and the detection of
+     * certain keywords present in the practitioner's notes associated with
+     * this patient.
+     *
+     * @param patientId an unique patient id.
+     * @return a report containing the patient's information, age
+     * and level of risk of developing diabetes.
+     */
     public Report generateReport(Integer patientId) {
         Report report = new Report();
         String riskLevel = null;
-        int triggersTermsOccurrences = 0;
+        int triggersTermsOccurrences;
         List<PractitionerNote> notes;
         Patient patient;
-
+        //If patient don't exist, return null.
         try {
             patient = patientServiceProxy.getPatientById(patientId);
         } catch (Exception e) {
@@ -44,6 +53,7 @@ public class ReportService implements IReportService {
         report.setPatient(patient);
         report.setAge(age);
 
+        //If patient don't have any note, return an empty ArrayList.
         try {
             notes = historyServiceProxy
                     .getAllPractitionerNoteByPatientId(patientId);
@@ -77,13 +87,23 @@ public class ReportService implements IReportService {
         return report;
     }
 
+    /**
+     * Generates a report based on the patient's age, sex and the detection of
+     * certain keywords present in the practitioner's notes associated with
+     * this patient.
+     *
+     * @param given      patient first name.
+     * @param familyName patient last name.
+     * @return a report containing the patient's first name and last name, age
+     * and level of risk of developing diabetes.
+     */
     public Report generateReportByFamilyNameAndGiven(String given, String familyName) {
         Report report = new Report();
         String riskLevel = null;
-        int triggersTermsOccurrences = 0;
+        int triggersTermsOccurrences;
         List<PractitionerNote> notes;
         Patient patient;
-
+        //If patient don't exist, return null.
         try {
             patient = patientServiceProxy.getPatientByFirstNameAndLastName(given, familyName);
         } catch (Exception e) {
@@ -94,6 +114,7 @@ public class ReportService implements IReportService {
         report.setPatient(patient);
         report.setAge(age);
 
+        //If patient don't have any note, return an empty ArrayList.
         try {
             notes = historyServiceProxy
                     .getAllPractitionerNoteByPatientId(patient.getId());

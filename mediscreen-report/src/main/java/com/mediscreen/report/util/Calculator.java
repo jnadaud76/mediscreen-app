@@ -37,6 +37,12 @@ public class Calculator implements ICalculator {
 
     }
 
+    /**
+     * Counts trigger word occurrences in practitioner notes associated with a patient.
+     *
+     * @param notes practitioner notes.
+     * @return a count of occurrences.
+     */
     public int calculateStringOccurrence(List<PractitionerNote> notes) {
         int count = 0;
         StringBuilder notesToString = new StringBuilder();
